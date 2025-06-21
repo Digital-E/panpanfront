@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react'
 
 import { StateProvider } from "../store"
 
+import { motion, AnimatePresence } from 'framer-motion'
+
 import Body from "../components/body"
 import CookieConsent from "react-cookie-consent"
 
@@ -32,6 +34,31 @@ function MyApp({ Component, pageProps, router }) {
       document.querySelector("#__next").style.opacity = 1
     }, 250)
   },[])
+
+
+  let desktopVariants = {
+    pageInitial: {
+      opacity: 0
+    },
+    pageAnimate: {
+      opacity: 1,
+      transition: {
+        duration: 1
+      }
+    },
+    pageExit: {
+      opacity: 0,
+      // filter: "blur(20px)",
+      transition: {
+        opacity: {
+          duration: 0.5
+        },
+        filter: {
+          duration: 0.5,
+        }
+      }
+    }
+  }  
 
   return (
     <StateProvider>
@@ -64,7 +91,12 @@ function MyApp({ Component, pageProps, router }) {
         >
         <Body content={pageProps.data?.menuData.cookietext} />
       </CookieConsent> */}              
-      <Component {...pageProps} />
+      {/* <Component {...pageProps} /> */}
+      <AnimatePresence mode='wait' onExitComplete={() => { window.scrollTo(0,0) }}>   
+        <motion.div key={router.asPath} initial="pageInitial" animate="pageAnimate" exit="pageExit" variants={desktopVariants}> 
+          <Component {...pageProps} />
+        </motion.div>
+      </AnimatePresence>
       {/* <Footer data={pageProps.data?.footerData}/> */}
     </StateProvider>
   )

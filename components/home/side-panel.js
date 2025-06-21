@@ -17,8 +17,8 @@ import Video from '../video';
 
 const Container = styled(motion.div)`
     position: fixed;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     right: 0;
     z-index: 999;
     background: transparent;
@@ -122,7 +122,7 @@ let BottomBar = styled.div`
     justify-content: space-between;
 
     a {
-        color: white;
+        color: var(--white);
         text-decoration: none;
         text-transform: uppercase;
     }
@@ -147,8 +147,9 @@ let Logo = styled.div`
     align-items: baseline;
 
     svg {
-        fill: white;
+        fill: var(--white);
         height: 50px;
+        opacity: 0;
     }
 
     @media(max-width: 989px) {
@@ -173,7 +174,7 @@ let Title = styled.p`
     position: relative;
     bottom: 11px;
     text-transform: uppercase;
-    color: white;
+    color: var(--white);
     margin: 0 0 0 10px;
 
     @media(max-width: 989px) {
@@ -214,7 +215,7 @@ export default ({ preview, data }) => {
     let [reveal, setReveal] = useState(false);
 
     useEffect(() => {
-        setReveal(true)
+        // setReveal(true)
 
         document.querySelector(".loader").classList.remove("show-loader")
 
@@ -253,11 +254,11 @@ export default ({ preview, data }) => {
     }, [])
 
     let hasClicked = () => {
-        setReveal(false)
+        // setReveal(false)
 
         setTimeout(() => {
             router.push("/")
-        }, 300)
+        }, 0)
     }
 
     let variants = {
@@ -279,7 +280,7 @@ export default ({ preview, data }) => {
 
     return (
         <>
-            <Container ref={containerRef} initial="closed" animate={reveal ? "open" : "closed"} variants={variants}>
+            <Container ref={containerRef}>
                 <Logo>
                     <div onClick={() => hasClicked()}>
                         <svg viewBox="0 0 936 153">
@@ -313,7 +314,7 @@ export default ({ preview, data }) => {
                     <div><Link>Next <br/> Project</Link></div>
                 </BottomBar>
             </Container>
-            <Overlay animate={reveal ? "visible" : "hidden"} variants={overlayVariants} onClick={() => hasClicked()}/>
+            <Overlay onClick={() => hasClicked()}/>
         </>
     )
 }

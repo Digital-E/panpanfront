@@ -12,10 +12,26 @@ let Container = styled.header`
   align-items: flex-start;
   justify-content: space-between;
   padding: 15px 25px;
-  z-index: 2;
+  z-index: 999;
   top: 0;
   box-sizing: border-box;
   pointer-events: none;
+
+  .home-button {
+    pointer-events: all;
+  }
+
+  * {
+    transition: 0.7s;
+  }
+
+  &&.gray-scheme * {
+    color: var(--gray);
+  }
+
+  &&.gray-scheme svg {
+    fill: var(--gray);
+  }
 
 @media(max-width: 989px) {
   justify-content: space-between;
@@ -34,6 +50,7 @@ let List = styled.ul`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  pointer-events: all;
 `
 
 let ListItem = styled.li`
@@ -102,11 +119,6 @@ export default function Header({ data }) {
           </Logo>
         </Link>
       </div>
-      {/* <div class="nav-mobile-burger" onClick={() => setMenuOpen(!menuOpen)}>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div> */}
       <Menu className={menuOpen ? "nav--open" : ""}>
         <List>
           {

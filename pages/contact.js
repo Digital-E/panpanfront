@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
 import Layout from '../components/layout'
 import { SITE_NAME } from '../lib/constants'
-import { homeQuery, previewHomeQuery, aboutQuery, previewAboutQuery, allProjectsQuery, previewAllProjectsQuery,menuQuery, footerQuery } from '../lib/queries'
+import { homeQuery, previewHomeQuery, contactQuery, previewContactQuery, allProjectsQuery, previewAllProjectsQuery,menuQuery, footerQuery } from '../lib/queries'
 import { getClient } from '../lib/sanity.server'
 
 import { store } from "../store"
@@ -35,6 +35,7 @@ const ContainerInner = styled(motion.div)`
     position: absolute;
     background: var(--blue);
     pointer-events: all;
+    width: 100%;
 
     @media(max-width: 989px) {
       height: 100%;
@@ -121,10 +122,10 @@ let MobileSpacer = styled.div`
 `
 
 
-export default function About({ data = {}, preview }) {
+export default function Contact({ data = {}, preview }) {
   //Context
   const context = useContext(store);
-  const { state, dispatch } = context;    
+  const { state, dispatch } = context;  
 
   const isDesktop = useMediaQuery({
     query: '(min-width: 990px)'
@@ -137,7 +138,7 @@ export default function About({ data = {}, preview }) {
   let [reveal, setReveal] = useState(false);
 
 
-  const slug = data?.aboutData?.slug
+  const slug = data?.contactData?.slug
 
   if (!router.isFallback && !slug) {
     return <ErrorPage statusCode={404} />
@@ -229,10 +230,10 @@ export default function About({ data = {}, preview }) {
     <>
       <Layout preview={preview}>
         <Head>
-          <title>{data?.aboutData?.title} | { SITE_NAME }</title>
+          <title>{data?.contactData?.title} | { SITE_NAME }</title>
           <meta
           name="description"
-          content={data?.aboutData?.content}
+          content={data?.contactData?.content}
           />
         </Head>
         <Container ref={containerRef} 
@@ -255,11 +256,11 @@ export default function About({ data = {}, preview }) {
                 <MobileSpacer className="mobile-spacer"/>
                 <div>
                   <div>
-                    <Body content={data?.aboutData?.textcolumnone} />
+                    <Body content={data?.contactData?.textcolumnone} />
                   </div>
                 </div>
                 <div>
-                  <div><Body content={data?.aboutData?.textcolumntwo} /></div>
+                  <div><Body content={data?.contactData?.textcolumntwo} /></div>
                 </div>
               </Columns>
             </ContainerInner>
@@ -272,11 +273,11 @@ export default function About({ data = {}, preview }) {
 
 export async function getStaticProps({ preview = false, params }) {
 
-  let slug = `about`
+  let slug = `contact`
 
   let homeData = await getClient(preview).fetch(homeQuery)
 
-  let aboutData = await getClient(preview).fetch(aboutQuery, {
+  let contactData = await getClient(preview).fetch(contactQuery, {
     slug: slug,
   })
 
@@ -285,7 +286,7 @@ export async function getStaticProps({ preview = false, params }) {
   if(preview) {
     homeData = await getClient(preview).fetch(previewHomeQuery) 
 
-    aboutData = await getClient(preview).fetch(previewAboutQuery, {
+    contactData = await getClient(preview).fetch(previewContactQuery, {
       slug: slug,
     })
 
@@ -303,7 +304,7 @@ export async function getStaticProps({ preview = false, params }) {
       preview,
       data: {
         homeData,
-        aboutData,
+        contactData,
         allProjectsData,
         menuData,
         footerData

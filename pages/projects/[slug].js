@@ -7,7 +7,6 @@ import { SITE_NAME } from '../../lib/constants'
 import { homeQuery, previewHomeQuery, projectSlugsQuery, projectQuery, previewProjectQuery, allProjectsQuery, previewAllProjectsQuery, menuQuery, footerQuery } from '../../lib/queries'
 import { sanityClient, getClient } from '../../lib/sanity.server'
 
-
 import { store } from "../../store"
 
 import SidePanel from '../../components/home/side-panel'
@@ -42,10 +41,10 @@ export default function Component({ data = {}, preview }) {
   }
 
   useEffect(() => {
-
-  }, [])
+    document.querySelector("header").classList.add("gray-scheme");
+  }, []);
   
-  console.log(data)
+  // console.log(data)
 
   return (
     <Layout preview={preview}>

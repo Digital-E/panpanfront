@@ -53,7 +53,7 @@ export default function Index({ data = {}, preview }) {
     // return () => {
     //   document.querySelector("body").classList.remove("body-lock");
     // }
-
+    document.querySelector("header").classList.remove("gray-scheme");
   }, []);
   
 
