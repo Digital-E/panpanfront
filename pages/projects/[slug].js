@@ -45,6 +45,7 @@ export default function Component({ data = {}, preview }) {
 
   }, [])
   
+  console.log(data)
 
   return (
     <Layout preview={preview}>
@@ -54,7 +55,7 @@ export default function Component({ data = {}, preview }) {
           <>
               <Head>
                 <title>
-                  {data.data.name} | {SITE_NAME}
+                  {data.data.title} | {SITE_NAME}
                 </title>
                 <meta
                   name="description"

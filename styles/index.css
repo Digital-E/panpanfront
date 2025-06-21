@@ -7,9 +7,18 @@
 }
 
 @font-face {
+    font-family: "Nimbus";
+    src: url("/fonts/NimbusSanL-Reg-webfont.woff") format("woff")
+    /* format("woff2"), */
+    /* url("/fonts/FluxischElse-Light.woff") format("woff"); */
+}
+
+@font-face {
     font-family: "Social Media Circled";
     src: url("/fonts/Social Media Circled.otf");
 }
+
+NimbusSanL-Reg-webfont.woff
 
 /* * {
     -webkit-font-smoothing: antialiased;
@@ -186,7 +195,7 @@ span {
 }
 
 h1, .h1 {
-    font-family: "Picnic Regular";
+    font-family: "Ciron";
     /* font-size: 5rem; */
     font-size: 3.3rem;
     letter-spacing: 1;
@@ -196,7 +205,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-    font-family: "Picnic Regular";
+    font-family: "Ciron";
     /* font-size: 4rem; */
     font-size: 2.8rem;
     letter-spacing: 1;
@@ -206,7 +215,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
-    font-family: "Picnic Regular";
+    font-family: "Ciron";
     /* font-size: 2.8rem; */
     font-size: 1.9rem;
     letter-spacing: 1;
@@ -216,7 +225,7 @@ h3, .h3 {
 }
 
 h4, .h4 {
-    font-family: "Picnic Regular";
+    font-family: "Ciron";
     /* font-size: 1.8rem; */
     /* font-size: 1.3rem; */
     font-size: 1.5rem;
@@ -227,7 +236,7 @@ h4, .h4 {
 }
 
 h5, .h5 {
-    font-family: "Picnic Regular";
+    font-family: "Ciron";
     /* font-size: 1.6rem; */
     /* font-size: 1.12rem; */
     /* font-size: 1.3rem; */
@@ -239,8 +248,8 @@ h5, .h5 {
 }
 
 h6, .h6 {
-    /* font-family: "Picnic Regular"; */
-    font-family: "Picnic Regular";
+    /* font-family: "Ciron"; */
+    font-family: "Ciron";
     /* font-size: 1.3rem; */
     font-size: 1rem;
     /* letter-spacing: -0.02em; */
@@ -251,17 +260,17 @@ h6, .h6 {
 
 
 p, .p, a {
-    font-family: "FluxischElse Light";
+    font-family: "Ciron";
     /* font-size: 1.3rem; */
-    font-size: 1.22rem;
-    letter-spacing: 0.02em;
-    font-weight: 100;
-    margin: 30px 0;
-    line-height: 1.2;
+    font-size: 0.75rem;
+    /* letter-spacing: 0.02em; */
+    /* font-weight: 100; */
+    /* margin: 30px 0; */
+    /* line-height: 1.2; */
 }
 
 input, input::placeholder, button, .error-label, label {
-    font-family: "FluxischElse Regular";
+    font-family: "Nimbus";
     font-size: 1rem;
 }
 
@@ -275,7 +284,7 @@ time {
 }
 
 .caption {
-    font-family: "FluxischElse Light";
+    font-family: "Nimbus";
     display: inline-block;
     font-size: 1.22rem;
     margin-top: 0.5rem;
@@ -283,7 +292,7 @@ time {
 
 @media(max-width: 989px) {
     h1, .h1 {
-        font-family: "Picnic Regular";
+        font-family: "Ciron";
         font-size: 2.5rem;
         /* letter-spacing: -0.03em; */
         font-weight: 100;
@@ -292,7 +301,7 @@ time {
     }
     
     h2, .h2 {
-        font-family: "Picnic Regular";
+        font-family: "Ciron";
         font-size: 2rem;
         /* letter-spacing: -0.04em; */
         font-weight: 100;
@@ -301,7 +310,7 @@ time {
     }
     
     h3, .h3 {
-        font-family: "Picnic Regular";
+        font-family: "Ciron";
         font-size: 1.5rem;
         /* letter-spacing: -0.02em; */
         font-weight: 100;
@@ -310,7 +319,7 @@ time {
     }
     
     h4, .h4 {
-        font-family: "Picnic Regular";
+        font-family: "Ciron";
         font-size: 1.5rem;
         /* letter-spacing: -0.02em; */
         font-weight: 100;
@@ -319,7 +328,7 @@ time {
     }
     
     h5, .h5 {
-        font-family: "Picnic Regular";
+        font-family: "Ciron";
         font-size: 1.5rem;
         /* letter-spacing: -0.02em; */
         font-weight: 100;
@@ -328,7 +337,7 @@ time {
     }
     
     h6, .h6 {
-        font-family: "Picnic Regular";
+        font-family: "Ciron";
         font-size: 1rem;
         /* letter-spacing: -0.02em; */
         font-weight: 100;
@@ -337,12 +346,12 @@ time {
     }
     
     p, .p, a {
-        font-family: "FluxischElse Light";
-        font-size: 0.9rem;
+        font-family: "Ciron";
+        font-size: 0.8125rem;
         /* letter-spacing: -0.02em; */
-        font-weight: 100;
-        margin: 20px 0;
-        line-height: 1.44;
+        /* font-weight: 100; */
+        /* margin: 20px 0; */
+        /* line-height: 1.44; */
     }
 
     input, input::placeholder, button {
