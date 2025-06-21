@@ -54,7 +54,7 @@ const CloseButton = styled.div`
         left: 50%;
         transform: translateY(-50%);
         top: auto;
-        bottom: 10px;
+        bottom: 15px;
     }
 `
 
@@ -80,6 +80,13 @@ let ContainerInner = styled.div`
     }
 
     > div {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .plyr {
+        height: 100%;
         width: 100%;
     }
 
@@ -109,7 +116,7 @@ let BottomBar = styled.div`
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 25px;
+    padding: 15px 25px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
@@ -123,13 +130,17 @@ let BottomBar = styled.div`
     > div:nth-child(2) {
         text-align: right;
     }
+
+    @media(max-width: 989px) {
+        padding: 25px 15px;
+    }
 `
 
 let Logo = styled.div`
     // position: fixed;
     top: 0;
     left: 0;
-    padding: 25px;
+    padding: 15px 25px;
 
     display: flex;
     align-self: flex-start;
@@ -219,6 +230,10 @@ export default ({ preview, data }) => {
     }, [])
 
     let resize = () => {
+        if(document.querySelector(".plyr")) {
+        document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - 200}px`
+        document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 200)* 1.777}px`
+        }
         if(window.innerWidth > 989) {
             setTimeout(() => {
 

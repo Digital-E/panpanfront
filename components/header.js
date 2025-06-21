@@ -9,72 +9,21 @@ let Container = styled.header`
   position: fixed;
   width: 100%;
   display: flex;
-  align-items: center;
-  padding: 25px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 15px 25px;
   z-index: 2;
   top: 0;
   box-sizing: border-box;
   pointer-events: none;
 
-  > div:nth-child(1) {
-    z-index: 1;
-    pointer-events: all;
-  }
-
-  > div:nth-child(2) > ul {
-    pointer-events: all;
-  }
-
-  > div:nth-child(1) .active-link {
-    background: none;
-  }
-
-  .p {
-   margin: 0;
-  }
-
-  .nav-mobile-burger {
-    display: none;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    position: relative;
-    width: 30px;
-    height: 35px;
-    z-index: 1;
-}
-
-.nav-mobile-burger > div {
-    height: 1px;
-    width: 30px;
-    background-color: black;
-    margin: 3px 0px;
-}
-
-&.nav--open .nav-mobile-burger > div:nth-child(1) {
-    position: absolute;
-    transform: rotateZ(45deg);
-    transform-origin: center center;
-}
-
-&.nav--open .nav-mobile-burger > div:nth-child(2) {
-    position: absolute;
-    transform: rotateZ(-45deg);
-    transform-origin: center center;
-}
-
-&.nav--open .nav-mobile-burger > div:nth-child(3) {
-    display: none;
-}
-
 @media(max-width: 989px) {
-  // background: white;
   justify-content: space-between;
-  
-  .nav-mobile-burger {
-    display: flex;
+  flex-direction: column;
+  padding: 15px 20px;
+
+  .home-button {
+    width: 100%;
   }
 }
 
@@ -82,48 +31,32 @@ let Container = styled.header`
 
 let List = styled.ul`
   display: flex;
-  flex-direction: column;
-
-  @media(max-width: 989px) {
-    position: fixed;
-    bottom: 70px;
-  }
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `
 
 let ListItem = styled.li`
   width: fit-content;
+
+  > a {
+    font-size: 0.875rem;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
 `
 
 let Menu = styled.div`
   display: flex;
   top: 0;
   left: 0;
-  width: 100%;
-  
+  width: 35%;
 
-  ${ListItem} {
-    margin-left: 10px;
-  }
 
   @media(max-width: 989px) {
-    // display: none;
-    position: absolute;
-    flex-direction: column;
-    padding: 80px 30px 30px 30px;
-    bottom: 0;
-
-    ${ListItem} {
-      margin-left: 0px;
-      margin-bottom: 10px;
-    }
-
-    > ul {
-      flex-direction: column;
-    }
-
-    &.nav--open {
-      display: flex;
-    }
+    width: 100%;
+    order: -1;
+    margin-bottom: 15px;
   }
 `
 
@@ -131,6 +64,14 @@ const Logo = styled.div`
   svg {
     height: 50px;
   }
+
+  @media(max-width: 989px) {
+    svg {
+      height: auto;
+      width: 100%;
+    }
+  }
+
 `
 
 
@@ -142,8 +83,6 @@ export default function Header({ data }) {
 
   if(data === undefined) return null;
 
-
-  console.log(data)
   return (
     <Container className={menuOpen ? "nav--open" : ""}>
       <div
@@ -170,12 +109,12 @@ export default function Header({ data }) {
       </div> */}
       <Menu className={menuOpen ? "nav--open" : ""}>
         <List>
-          {/* {
+          {
           data?.menuItems?.map((item, index) => {
             let isLast = index === data.menuItems.length - 1 ? true : false
-            return <ListItem key={item._id}  onClick={() => setMenuOpen(false)} ><Button><Link href={item.url} isMenu={true}><span>{item.label}</span></Link></Button></ListItem>
+            return <ListItem key={item._id}  onClick={() => setMenuOpen(false)} ><Link href={item.url} isMenu={true}><span>{item.label}</span></Link></ListItem>
           })
-          } */}
+          }
         </List>
       </Menu>
     </Container>
