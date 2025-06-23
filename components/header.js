@@ -6,13 +6,13 @@ import styled from "styled-components"
 import Button from './button'
 
 let Container = styled.header`
-  position: fixed;
-  width: 100%;
+  position: relative;
+  width: 100vw;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   padding: 15px 25px;
-  z-index: 999;
+  z-index: 0;
   top: 0;
   box-sizing: border-box;
   pointer-events: none;
@@ -21,17 +21,25 @@ let Container = styled.header`
     pointer-events: all;
   }
 
+  // * {
+  //   transition: 0.7s;
+  // }
+
   * {
-    transition: 0.7s;
+    color: ${props => props.colorSchemeGray === true ? 'var(--gray)' : 'black'};
   }
 
-  &&.gray-scheme * {
-    color: var(--gray);
+  svg {
+    fill: ${props => props.colorSchemeGray === true ? 'var(--gray)' : 'black'};
   }
 
-  &&.gray-scheme svg {
-    fill: var(--gray);
-  }
+  // &&.gray-scheme * {
+  //   color: var(--gray);
+  // }
+
+  // &&.gray-scheme svg {
+  //   fill: var(--gray);
+  // }
 
 @media(max-width: 989px) {
   justify-content: space-between;
@@ -94,14 +102,14 @@ const Logo = styled.div`
 
 
 
-export default function Header({ data }) {
+export default function Header({ data , colorSchemeGray}) {
   let [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
   if(data === undefined) return null;
 
   return (
-    <Container className={menuOpen ? "nav--open" : ""}>
+    <Container className={menuOpen ? "nav--open" : ""} colorSchemeGray={colorSchemeGray}>
       <div
         onClick={() => {setMenuOpen(false);}}
         className='home-button'

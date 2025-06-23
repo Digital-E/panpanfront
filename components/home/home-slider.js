@@ -19,22 +19,30 @@ import Image from '../image'
 
 
 const Container = styled.div`
+`
+
+const InnerContainer = styled.div`
   position: fixed;
-  height: 100%;
+  height: calc(100vh - 185px);
   width: 100%;
   left: 0;
   top: 0;
-  margin-top: 150px;
-  padding: 25px 20px;
+  margin-top: 145px;
+  padding: 0px 25px;
   overflow: hidden;
-  z-index: 0;
+  z-index: 1;
   box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: 12.5% 6.25% 12.5% 12.5% 6.25% 12.5% 12.5% 12.5% 12.5%;
+    grid-template-rows: repeat(3, 1fr);
 
   @media(max-width: 989px) {
     display: flex;
     align-items: center;
   }
 `
+
 
 const Carousel = styled.div`
     position: relative;
@@ -70,11 +78,21 @@ let Overlay = styled(motion.div)`
 `
 
 let Tile = styled.div`
-    width: 150px;
-    height: 180px;
+    width: 100%;
+    height: 100%;
+    padding: 10px 6px;
+    box-sizing: border-box;
     overflow: hidden;
 
-    > span {
+    > a {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        display: block;
+        overflow: hidden;
+    }
+
+    > a > span {
         height: 100% !important;
         width: 100% !important;
         transition-duration: 0.7s;
@@ -84,8 +102,24 @@ let Tile = styled.div`
         object-fit: cover;
     }
 
-    :hover > span {
+    :hover > a > span {
         transform: scale(1.1);
+    }
+`
+let Filters = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 35px;
+
+    * {
+        font-family: "Ciron";
+        font-size: 0.75rem;
+        text-transform: uppercase;
+    }
+
+    > div {
+        margin: 0 30px;
     }
 `
 
@@ -148,15 +182,35 @@ export default function Component({ data, allProjects, activeTags }) {
 //       flickity = null
 //   }  
 
+let gridOneDisposition = [
+    true, false, true, true, false, true, true, false, true,
+    true, false, false, false, false, false, true, true, false,
+    false, false, true, true, false, true, false, false, true
+]
+
+let gridOneArray = [];
+let gridOneIndex = 0;
+
   useEffect(() => {
     let allProjectsMultiply = [];
 
 
-    for(let i = 0; i < 15; i++) {
+
+    for(let i = 0; i < 14; i++) {
         allProjectsMultiply.push(...allProjects)
     }
+
+    gridOneDisposition.forEach(item => {
+        if(item === true) {
+            gridOneIndex += 1;
+            gridOneArray.push(allProjectsMultiply[gridOneIndex])
+        } else {
+            gridOneArray.push(null)
+        }
+    })
     
-    setAll([...allProjectsMultiply])
+    // setAll([...allProjectsMultiply])
+    setAll(gridOneArray)
 
     // if(window.innerWidth < 990) {
     //   setTimeout(() => {
@@ -337,12 +391,25 @@ export default function Component({ data, allProjects, activeTags }) {
 
   return (
     <Container>
-    {all.map((item, index) => 
-        // <Island data={item} dataAll={all} index={index} toggle={() => clickIsland(index)} prevOpen={prevOpen} allProjects={allProjects} activeTags={activeTags} platform='desktop'/>
-        <Tile>
-            <Image data={item.thumbnail}/>
-        </Tile>
-    )}
+        <Filters>
+                <div>All</div>
+                <div>Documentaries</div>
+                <div>Savoir-faire</div>
+                <div>Digital Content</div>
+        </Filters>
+        <InnerContainer>
+        {all.map((item, index) => 
+            // <Island data={item} dataAll={all} index={index} toggle={() => clickIsland(index)} prevOpen={prevOpen} allProjects={allProjects} activeTags={activeTags} platform='desktop'/>
+            <Tile>
+                {
+                    item !== null &&
+                        <Link href={item.slug}>
+                            <Image data={item.thumbnail}/>
+                        </Link>                
+                }
+            </Tile>
+        )}
+        </InnerContainer>
     </Container>
   )
 }

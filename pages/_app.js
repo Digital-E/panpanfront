@@ -10,6 +10,8 @@ import { StateProvider } from "../store"
 
 import { motion, AnimatePresence } from 'framer-motion'
 
+import styled from "styled-components"
+
 import Lottie from "lottie-react";
 import animation from "../public/lottieanimation/data.json";
 
@@ -18,7 +20,6 @@ import CookieConsent from "react-cookie-consent"
 
 
 import Header from '../components/header'
-import Footer from '../components/footer'
 
 
 import Grid from '../components/home/grid'
@@ -27,6 +28,25 @@ import Islands from '../components/home/islands'
 import Ticker from '../components/ticker'
 import HomeSlider from '../components/home/home-slider'
 import Loader from '../components/loader'
+
+let Footer = styled.div`
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  padding: 15px 25px;
+  box-sizing: border-box;
+  z-index: 1;
+
+
+  * {
+    font-family: Ciron;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+`
 
 
 function MyApp({ Component, pageProps, router }) {
@@ -47,7 +67,7 @@ function MyApp({ Component, pageProps, router }) {
     pageAnimate: {
       opacity: 1,
       transition: {
-        duration: 1
+        duration: 0
       }
     },
     pageExit: {
@@ -55,7 +75,8 @@ function MyApp({ Component, pageProps, router }) {
       // filter: "blur(20px)",
       transition: {
         opacity: {
-          duration: 0.5
+          duration: 0,
+          delay: 0.5
         },
         filter: {
           duration: 0.5,
@@ -76,6 +97,10 @@ function MyApp({ Component, pageProps, router }) {
           <Grid />
           <Islands data={pageProps.data?.homeData} allProjects={pageProps.data?.allProjectsData} activeTags={activeTags}/> */}
           <HomeSlider allProjects={pageProps.data?.allProjectsData} />
+          <Footer>
+            <div>Creative Production Company</div>
+            <div><a href="https://www.instagram.com/" target="_blank">Instagram</a></div>
+          </Footer>
           <Loader />
           </>
         )
@@ -97,7 +122,7 @@ function MyApp({ Component, pageProps, router }) {
         <Body content={pageProps.data?.menuData.cookietext} />
       </CookieConsent> */}              
       {/* <Component {...pageProps} /> */}
-      <Lottie animationData={animation} loop={true} />
+      {/* <Lottie animationData={animation} loop={true} /> */}
       <AnimatePresence mode='wait' onExitComplete={() => { window.scrollTo(0,0) }}>   
         <motion.div key={router.asPath} initial="pageInitial" animate="pageAnimate" exit="pageExit" variants={desktopVariants}> 
           <Component {...pageProps} />

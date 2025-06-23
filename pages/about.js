@@ -17,13 +17,15 @@ import styled from 'styled-components'
 
 import Body from "../components/body"
 
+import Header from "../components/header"
+
 const Container = styled(motion.div)`
     position: absolute;
     top: 0;
     left: 0;
     height: 100vh;
     width: 100vw;
-    z-index: 0;
+    z-index: 999;
     pointer-events: none;
 
     a {
@@ -49,9 +51,9 @@ const Columns = styled.div`
     text-align: center;
     color: var(--white);
     width: 75%;
-    margin: 0 auto;
+    margin: 50px auto 0 auto;
 
-    > div {
+    > div:nth-child(2) {
         margin-top: 140px;
         margin-bottom: 30px;
     }
@@ -64,12 +66,13 @@ const Columns = styled.div`
     @media(max-width: 989px) {
       width: 100%;
       padding: 0 15px;
+      margin: 30px auto 0 auto;
 
       > div:first-child {
         margin: 0;
       }
 
-      > div:first-child, > div:nth-child(2) {
+      > div:first-child, > div:nth-child(1) {
         margin-top: 0;
       }
 
@@ -105,7 +108,7 @@ let Overlay = styled(motion.div)`
   opacity: 0;
   height: 100vh !important;
   width: 100vw !important;
-  z-index: -1;
+  z-index: 1;
   transform: none !important;
   pointer-events: all;
   // backdrop-filter: blur(2px);
@@ -148,9 +151,9 @@ export default function About({ data = {}, preview }) {
 
   let resize = () => {
 
-    let headerHeight = document.querySelector("header").getBoundingClientRect().height;
+    // let headerHeight = document.querySelector("header").getBoundingClientRect().height;
 
-    document.querySelector(".mobile-spacer").style.height = `${headerHeight + 25}px`
+    // document.querySelector(".mobile-spacer").style.height = `${headerHeight + 25}px`
   }  
 
   useEffect(() => {
@@ -166,7 +169,7 @@ export default function About({ data = {}, preview }) {
   }, []);
 
   useEffect(() => {
-    document.querySelector("header").classList.add("gray-scheme");
+    // document.querySelector("header").classList.add("gray-scheme");
   }, []);
 
   let hasClicked = () => {
@@ -212,19 +215,20 @@ export default function About({ data = {}, preview }) {
       pageInitial: {
         y: "-100%",
         transition: {
-            duration: 0.3
+            duration: 0
         },        
       },
       pageAnimate: {
         y: 0,
         transition: {
-            duration: 1
+            duration: 0.5,
+            // delay: 0.5
         }
       },
       pageExit: {
         y: "-100%",
         transition: {
-            duration: 0.3
+            duration: 0.5
         },
       }
   }    
@@ -245,6 +249,7 @@ export default function About({ data = {}, preview }) {
             <ContainerInner
               variants={variants}
             >
+              <Header data={data?.menuData} colorSchemeGray={true} />
               <CloseButton onClick={() => hasClicked()}>
                   <svg width="19.414" height="19.414" viewBox="0 0 19.414 19.414">
                   <g id="Groupe_2" data-name="Groupe 2" transform="translate(-1320.293 -413.293)">
@@ -256,7 +261,7 @@ export default function About({ data = {}, preview }) {
                   </svg>                    
               </CloseButton>              
               <Columns>
-                <MobileSpacer className="mobile-spacer"/>
+                {/* <MobileSpacer className="mobile-spacer"/> */}
                 <div>
                   <div>
                     <Body content={data?.aboutData?.textcolumnone} />

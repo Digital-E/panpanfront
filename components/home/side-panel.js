@@ -67,7 +67,7 @@ let Overlay = styled(motion.div)`
   z-index: 1;
   transform: none !important;
   pointer-events: all;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
 `
 
 let ContainerInner = styled.div`
@@ -149,7 +149,7 @@ let Logo = styled.div`
     svg {
         fill: var(--white);
         height: 50px;
-        opacity: 0;
+        opacity: 1;
     }
 
     @media(max-width: 989px) {
@@ -262,14 +262,17 @@ export default ({ preview, data }) => {
     }
 
     let variants = {
-        open: {
+        pageInitial: {
+            opacity: 0
+        },
+        pageAnimate: {
             // right: 0,
             opacity: 1,
             transition: {
                 duration: 0.3
             }
         },
-        closed: {
+        pageExit: {
             // right: isDesktop ? "-100%" : 0,
             opacity: 0,
             transition: {
@@ -277,10 +280,13 @@ export default ({ preview, data }) => {
             }
         }
     }
+    
+
+    
 
     return (
         <>
-            <Container ref={containerRef}>
+            <Container ref={containerRef} variants={variants}>
                 <Logo>
                     <div onClick={() => hasClicked()}>
                         <svg viewBox="0 0 936 153">
@@ -314,7 +320,7 @@ export default ({ preview, data }) => {
                     <div><Link>Next <br/> Project</Link></div>
                 </BottomBar>
             </Container>
-            <Overlay onClick={() => hasClicked()}/>
+            <Overlay variants={variants} onClick={() => hasClicked()}/>
         </>
     )
 }
