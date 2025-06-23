@@ -49,8 +49,13 @@ const Columns = styled.div`
     box-sizing: border-box;
     text-align: center;
     color: var(--white);
-    width: 75%;
     margin: 0 auto;
+
+    > div:nth-child(2) {
+        width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     > div {
         margin-top: 140px;
@@ -59,6 +64,10 @@ const Columns = styled.div`
 
     * {
       font-size: 1.5rem;
+    }
+
+    > div:nth-child(2) {
+      line-height: 2rem;
     }
 
     @media(max-width: 989px) {
@@ -73,9 +82,17 @@ const Columns = styled.div`
         margin-top: 0;
       }
 
+      > div:nth-child(2) {
+        width: 100%;
+      }      
+
       * {
         font-size: 1.125rem;
       }
+
+      > div:nth-child(2) {
+        line-height: 1.5rem;
+      }      
     }
 `;
 
@@ -118,6 +135,47 @@ let MobileSpacer = styled.div`
   display: none;
   @media(max-width: 989px) {
     display: block;
+  }
+`
+
+let TextItems= styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 35px 25px;
+
+  @media(max-width: 989px) {
+    flex-direction: column;
+    margin: 0;
+  }
+`
+
+let TextItemColumn = styled.div`
+  margin: 0 35px 40px 35px;
+
+  @media(max-width: 989px) {
+    margin: 0 0 35px 0;
+  }
+`
+
+let TextItemColumnTitle = styled.div`
+  margin-bottom: 10px;
+
+  p {
+    font-size: 1rem;
+  }
+`
+
+let TextItemColumnText = styled.div`
+  * {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  @media(max-width: 989px) {
+    * {
+      font-size: 0.8125rem;
+      line-height: 1.125rem;
+    }
   }
 `
 
@@ -226,6 +284,8 @@ export default function Contact({ data = {}, preview }) {
       }
   }    
 
+  console.log(data)
+
   return (
     <>
       <Layout preview={preview}>
@@ -254,14 +314,18 @@ export default function Contact({ data = {}, preview }) {
               </CloseButton>              
               <Columns>
                 <MobileSpacer className="mobile-spacer"/>
-                <div>
                   <div>
                     <Body content={data?.contactData?.textcolumnone} />
                   </div>
-                </div>
-                <div>
-                  <div><Body content={data?.contactData?.textcolumntwo} /></div>
-                </div>
+                  <TextItems>
+                    {
+                      data?.contactData?.textItems?.map(item => 
+                      <TextItemColumn>
+                        <TextItemColumnTitle><p>{item.title}</p></TextItemColumnTitle>
+                        <TextItemColumnText><Body content={item?.textItem} /></TextItemColumnText>
+                      </TextItemColumn>)
+                    }
+                  </TextItems>
               </Columns>
             </ContainerInner>
         </Container>

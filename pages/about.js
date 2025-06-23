@@ -58,6 +58,7 @@ const Columns = styled.div`
 
     * {
       font-size: 1.5rem;
+      line-height: 2rem;
     }
 
     @media(max-width: 989px) {
@@ -74,6 +75,7 @@ const Columns = styled.div`
 
       * {
         font-size: 1.125rem;
+        line-height: 1.5rem;
       }
     }
 `;
@@ -152,7 +154,9 @@ export default function About({ data = {}, preview }) {
   }  
 
   useEffect(() => {
-    resize();
+    // setTimeout(() => {
+      resize();
+    // }, 300)
 
     window.addEventListener('resize', resize)
 

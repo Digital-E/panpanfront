@@ -10,6 +10,9 @@ import { StateProvider } from "../store"
 
 import { motion, AnimatePresence } from 'framer-motion'
 
+import Lottie from "lottie-react";
+import animation from "../public/lottieanimation/data.json";
+
 import Body from "../components/body"
 import CookieConsent from "react-cookie-consent"
 
@@ -22,6 +25,7 @@ import Grid from '../components/home/grid'
 import Filter from '../components/home/filter'
 import Islands from '../components/home/islands'
 import Ticker from '../components/ticker'
+import HomeSlider from '../components/home/home-slider'
 import Loader from '../components/loader'
 
 
@@ -71,6 +75,7 @@ function MyApp({ Component, pageProps, router }) {
           <Filter data={pageProps.data?.homeData?.filters} setActiveTags={(data) => setActiveTags(data)}/>
           <Grid />
           <Islands data={pageProps.data?.homeData} allProjects={pageProps.data?.allProjectsData} activeTags={activeTags}/> */}
+          <HomeSlider allProjects={pageProps.data?.allProjectsData} />
           <Loader />
           </>
         )
@@ -92,6 +97,7 @@ function MyApp({ Component, pageProps, router }) {
         <Body content={pageProps.data?.menuData.cookietext} />
       </CookieConsent> */}              
       {/* <Component {...pageProps} /> */}
+      <Lottie animationData={animation} loop={true} />
       <AnimatePresence mode='wait' onExitComplete={() => { window.scrollTo(0,0) }}>   
         <motion.div key={router.asPath} initial="pageInitial" animate="pageAnimate" exit="pageExit" variants={desktopVariants}> 
           <Component {...pageProps} />
