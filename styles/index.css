@@ -1,9 +1,9 @@
 
 @font-face {
     font-family: "Ciron";
-    src: url("/fonts/CironClassicUnlicensedTrialVersion-Medium.otf") 
-    /* format("woff2"), */
-    /* url("/fonts/FluxischElse-Light.woff") format("woff"); */
+    src: url("/fonts/CironText-Regular.woff2") 
+    format("woff2"),
+    url("/fonts/CironText-Regular.woff") format("woff");
 }
 
 @font-face {

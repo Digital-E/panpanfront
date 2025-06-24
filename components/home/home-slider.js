@@ -104,6 +104,14 @@ let Tile = styled.div`
     box-sizing: border-box;
     overflow: hidden;
 
+    transition: filter 1s;
+
+    &.hide-tile {
+      filter: blur(10px);
+      transition: filter 1s;
+      pointer-events: none;
+    }
+
     > a {
         height: 100%;
         width: 100%;
@@ -131,6 +139,18 @@ let Filters = styled.div`
     justify-content: center;
     margin-top: 20px;
     margin-bottom: 35px;
+
+    .active-filter {
+      text-decoration: underline;
+    }
+
+    > div {
+      cursor: pointer;
+    }
+
+    > div:hover {
+      text-decoration: underline;
+    }
 
     * {
         font-family: "Ciron";
@@ -185,74 +205,71 @@ let overlayVariants = {
 
 let hasScrolled = false;
 
+let preFiltersArray = [];
+
+let gridOneDisposition = [
+  true, false, true, true, false, true, true, false, true,
+  true, false, false, false, false, false, true, true, false,
+  false, false, true, true, false, true, false, false, true
+]
+
+let gridTwoDisposition = [
+false, true, true, false, false, true, false, false, true,
+true, false, true, true, false, false, true, false, false,
+false, true, false, true, false, true, true, false, true
+]
+
+let gridThreeDisposition = [
+false, true, false, false, true, true, false, false, true,
+true, true, false, true, false, true, false, false, true,
+true, false, false, true, true, false, false, true, false
+]
+
+let allGridDispositions = [
+gridOneDisposition,
+gridTwoDisposition,
+gridThreeDisposition
+]
+
+let TileWrapper = ({item, currentFilter}) => {
+
+  let hasCurrentFilter = false;
+
+
+  if(currentFilter === "all") {
+    hasCurrentFilter = true;
+  } else {
+    item?.tags.forEach(item => {
+      if(item !== currentFilter) {
+        hasCurrentFilter = true
+      }
+    })
+  }
+
+
+  return (
+    <Tile className={!hasCurrentFilter && "hide-tile"}>
+      {item !== null &&
+      <Link href={item.slug}>
+          <Image data={item.thumbnail}/>
+      </Link>}
+    </Tile>
+  )
+}
+
 export default function Component({ data, allProjects, activeTags }) {
   let [all, setAll] = useState([]);
-  let [prevOpen, setPrevOpen] = useState(0);
-  let [overlayOpen, setOverlayOpen] = useState(false);
   let [currentGridIndex, setCurrentGridIndex] = useState(0);
-  let carouselRef = useRef();
+  let [filters, setFilters] = useState([]);
+  let [currentFilter, setCurrentFilter] = useState("");
   let gridDots = useRef();
-
-  let allRef = useRef(all);
 
   const isDesktop = useMediaQuery({
     query: '(min-width: 990px)'
   })
 
-  let scene = null;
-  let flickity = null;
 
-
-//   let initCarousel = () => {
-//       if(flickity !== null) return
-
-//       flickity = new Flickity(carouselRef.current, {
-//           prevNextButtons: false,
-//           pageDots: false,
-//           selectedAttraction: 0.07,
-//           friction: 0.42,
-//           freeScroll: true,
-//           cellAlign: "center",
-//           percentPosition: true,
-//           wrapAround: true,
-//       })
-
-//       flickity.on('staticClick', (event, pointer, cellElement, cellIndex) => {
-//         toggleIsland(cellIndex)
-//       })
-//   }  
-
-//   let destroyCarousel = () => {
-//       if(flickity === null) return
-//       flickity.destroy()
-//       flickity = null
-//   }  
-
-let gridOneDisposition = [
-    true, false, true, true, false, true, true, false, true,
-    true, false, false, false, false, false, true, true, false,
-    false, false, true, true, false, true, false, false, true
-]
-
-let gridTwoDisposition = [
-  false, true, true, false, false, true, false, false, true,
-  true, false, true, true, false, false, true, false, false,
-  false, true, false, true, false, true, true, false, true
-]
-
-let gridThreeDisposition = [
-  false, true, false, false, true, true, false, false, true,
-  true, true, false, true, false, true, false, false, true,
-  true, false, false, true, true, false, false, true, false
-]
-
-let allGridDispositions = [
-  gridOneDisposition,
-  gridTwoDisposition,
-  gridThreeDisposition
-]
-
-let allGridArrays = []
+let allGridArrays = [];
 
 let gridIndex = 0;
 let gridArray = [];
@@ -287,98 +304,38 @@ let gridArray = [];
       selectDot();
     }, 0)
 
-    // if(window.innerWidth < 990) {
-    //   setTimeout(() => {
-    //     initCarousel();
-    //   }, 0)
-    // } else {
-    //   initParallax();
-    // }
 
-    // window.addEventListener("resize", () => {
-    //   if(window.innerWidth > 989) {
-    //       destroyCarousel();
-    //       if(!parallaxInstance) {
-    //         initParallax();
-    //       } else {
-    //         parallaxInstance?.enable()
-    //       }
-    //       // desktopResizeCount += 1
-    //       // hasPositioned = false;
-    //       // positionCards();
-    //   } else {
-    //       // desktopResizeCount = -1
-    //       initCarousel();
-    //       destroyParallax();
-    //   }
-    // })  
+    //Filters
 
+    preFiltersArray = [
+      {label: "all", active: true},
+      {label: "documentaries", active: false},
+      {label: "savoir-faire", active: false},
+      {label: "digital-content", active: false}
+    ];
+  
+    setFilters(preFiltersArray)
 
   }, []);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if(isDesktop) {
-  //       parallaxInstance?.enable()
-  //     } else {
-  //       parallaxInstance?.disable()
-  //     }
-  //   }, 0)
-  // }, [isDesktop])
+  let clickFilter = (index) => {
+    let newFilters = [];
+    newFilters = preFiltersArray;
+    newFilters.forEach(item => item.active = false);
+  
+    newFilters[index].active = true;
+  
+    setFilters(JSON.parse(JSON.stringify(newFilters)));
+
+  }
 
 
-//   useEffect(() => {
+  useEffect(() => {
+    let currentFilterLabel = filters.filter(item => item.active === true)
+    currentFilterLabel = currentFilterLabel[0]?.label
 
-//     let openCount = 0;
-
-//     all.forEach((item) => {
-
-//       if(item.isOpen) {
-//         openCount += 1;
-//       }
-
-//     })
-
-//     if(openCount > 0) {
-
-//       setOverlayOpen(true)
-
-//     } else {
-//       setOverlayOpen(false)
-
-//       clearTimeout(parallaxTimeout)
-
-//       parallaxInstance?.disable()
-      
-//       parallaxTimeout = setTimeout(() => {
-//         parallaxInstance?.enable()
-//       }, 1000)
-//     }
-//   },[all])
-
-//   let clickIsland = (index) => {
-//     if(window.innerWidth < 990) return
-//       toggleIsland(index)
-//   }
-
-//   let toggleIsland = (index) => {
-//     setPrevOpen(index);
-//     let copyAll = JSON.parse(JSON.stringify(allRef.current))
-//     copyAll[index].isOpen = true
-
-//     setAll(copyAll)
-//     allRef.current = copyAll
-//   }
-
-//   let closeAll = () => {
-//     let copyAll = JSON.parse(JSON.stringify(all))
-
-//     copyAll.forEach(item => item.isOpen = false)
-
-//     setAll(copyAll)
-//     allRef.current = copyAll
-//   }
-
+    setCurrentFilter(currentFilterLabel)
+  }, [filters])
 
 //   useEffect(() => {
     
@@ -466,16 +423,6 @@ let gridArray = [];
 //   }, [activeTags])
 
 
-let TileWrapper = ({item}) => {
-  return (
-    <Tile>
-      {item !== null &&
-      <Link href={item.slug}>
-          <Image data={item.thumbnail}/>
-      </Link>}
-    </Tile>
-  )
-}
 
 let selectDot = () => {
   Array.from(gridDots.current.children).forEach(item => item.classList.remove("active"))
@@ -516,19 +463,19 @@ let changeGridIndex = (e) => {
   }, 1500)
 }
 
+
 const modalVariants = {
-  initial: {opacity: 0, transform: "scale(0.97)"},
-  visible: { opacity: 1, transform: "scale(1)", transition: { duration: 0.7, delay: 0.7 } },
-  hidden: { opacity: 0, transform: "scale(0.97)", transition: { duration: 0.7 } }
+  initial: {opacity: 0, transform: "scale(0.99)"},
+  visible: { opacity: 1, transform: "scale(1)", transition: { duration: 0.6, delay: 0.6, ease: "easeInOut"} },
+  hidden: { opacity: 0, transform: "scale(0.99)", transition: { duration: 0.6, ease: "easeOut"} }
 }
 
   return (
     <Container>
         <Filters>
-                <div>All</div>
-                <div>Documentaries</div>
-                <div>Savoir-faire</div>
-                <div>Digital Content</div>
+          {filters.map((item, index) => (
+            <div className={item.active && "active-filter"} onClick={() => clickFilter(index)}>{item.label}</div>
+          ))}
         </Filters>
         <InnerContainer className='inner-container' onWheel={(e) => changeGridIndex(e)}>
           <AnimatePresence mode="wait">
@@ -537,19 +484,19 @@ const modalVariants = {
               if(indexOne === 0 && currentGridIndex === 0) {
                 return (
                 <GridOne key={0} initial="initial" animate="visible" exit="hidden" variants={modalVariants}>
-                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} />)}
+                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
                 </GridOne>
                 )}
               if(indexOne === 1 && currentGridIndex === 1) {
                 return (
                 <GridTwo key={1} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
-                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} />)}
+                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
                 </GridTwo>
                 )} 
               if(indexOne === 2 && currentGridIndex === 2) {
                 return (
                 <GridThree key={2} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
-                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} />)}
+                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
                 </GridThree>
                 )}                                  
               }
