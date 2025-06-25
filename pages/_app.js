@@ -21,15 +21,10 @@ import CookieConsent from "react-cookie-consent"
 
 import Header from '../components/header'
 
-
-import Grid from '../components/home/grid'
-import Filter from '../components/home/filter'
-import Islands from '../components/home/islands'
-import Ticker from '../components/ticker'
 import HomeSlider from '../components/home/home-slider'
 import Loader from '../components/loader'
 
-let Footer = styled.div`
+let Footer = styled.footer`
   position: fixed;
   width: 100%;
   display: flex;
@@ -46,7 +41,56 @@ let Footer = styled.div`
     font-size: 0.875rem;
     text-transform: uppercase;
   }
+
+  @media(max-width: 989px) {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 25px 15px;
+
+    > div:first-child {
+      margin-bottom: 10px;
+    }
+  }
 `
+
+let MobileHeaderSpacer = styled.div`
+  > header {
+    opacity: 0;
+  }
+
+  @media(min-width: 990px) {
+    display: none;
+  }
+`
+
+let Wrapper = styled.div`
+  @media(max-width: 989px) {
+      > header::before {
+        content: "";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(0deg, transparent 0%, var(--white) 30%);
+        z-index: 0;
+      }  
+
+      > footer::before {
+        content: "";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(180deg, transparent 0%, var(--white) 80%);
+        z-index: -1;      
+      }
+  }
+`
+
+
 
 
 function MyApp({ Component, pageProps, router }) {
@@ -90,19 +134,18 @@ function MyApp({ Component, pageProps, router }) {
       {
         pageProps.data?.homeData !== undefined ?
         (
-          <>
-          <Header data={pageProps.data?.menuData} />
-          {/* <Ticker data={pageProps.data?.footerData} />
-          <Filter data={pageProps.data?.homeData?.filters} setActiveTags={(data) => setActiveTags(data)}/>
-          <Grid />
-          <Islands data={pageProps.data?.homeData} allProjects={pageProps.data?.allProjectsData} activeTags={activeTags}/> */}
-          <HomeSlider allProjects={pageProps.data?.allProjectsData} />
-          <Footer>
-            <div>Creative Production Company</div>
-            <div><a href="https://www.instagram.com/" target="_blank">Instagram</a></div>
-          </Footer>
-          <Loader />
-          </>
+          <Wrapper>
+            <Header data={pageProps.data?.menuData} positionFixed={true} />
+            <MobileHeaderSpacer>
+              <Header data={pageProps.data?.menuData} />
+            </MobileHeaderSpacer>
+            <HomeSlider allProjects={pageProps.data?.allProjectsData} />
+            <Footer>
+              <div>Creative Production Company</div>
+              <div><a href="https://www.instagram.com/" target="_blank">Instagram</a></div>
+            </Footer>
+            <Loader />
+          </Wrapper>
         )
         :
         null

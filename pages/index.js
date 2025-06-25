@@ -12,8 +12,7 @@ import { store } from "../store"
 
 
 const Container = styled.div`
-  position: relative;
-  height: 100vh;
+
 `
 
 // let tags = [

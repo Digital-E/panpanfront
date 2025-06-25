@@ -30,6 +30,7 @@ const Container = styled(motion.div)`
 
     a {
       text-decoration: none;
+      color: var(--white);
     }
 `
 

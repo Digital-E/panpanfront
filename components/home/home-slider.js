@@ -36,8 +36,10 @@ const InnerContainer = styled.div`
   box-sizing: border-box;
 
   @media(max-width: 989px) {
-    display: flex;
-    align-items: center;
+    position: relative;
+    height: auto;
+    margin-top: 0;
+    padding-top: 30px;
   }
 `
 
@@ -46,6 +48,11 @@ const GridOne = styled(motion.div)`
   display: grid;
   grid-template-columns: 12.5% 6.25% 12.5% 12.5% 6.25% 12.5% 12.5% 12.5% 12.5%;
   grid-template-rows: repeat(3, 1fr);
+
+  @media(max-width: 989px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `
 
 const GridTwo = styled(motion.div)`
@@ -53,6 +60,11 @@ const GridTwo = styled(motion.div)`
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 6.25% 12.5% 12.5% 6.25% 12.5%;
   grid-template-rows: repeat(3, 1fr);
+
+  @media(max-width: 989px) {
+    display: flex;
+    flex-wrap: wrap;
+  }  
 `
 
 const GridThree = styled(motion.div)`
@@ -60,24 +72,11 @@ const GridThree = styled(motion.div)`
   display: grid;
   grid-template-columns: 12.5% 12.5% 6.25% 12.5% 12.5% 12.5% 6.25% 12.5% 12.5%;
   grid-template-rows: repeat(3, 1fr);
-`
 
-
-
-const Carousel = styled.div`
-    position: relative;
-    width: 100%;
-    outline: none !important;
-    overflow: hidden;
-
-    .flickity-viewport {
-        overflow: visible;
-    }
-
-    @media(min-width: 990px) {
-      height: 100%;
-    }
-    
+  @media(max-width: 989px) {
+    display: flex;
+    flex-wrap: wrap;
+  }  
 `
 
 let Overlay = styled(motion.div)`
@@ -133,6 +132,12 @@ let Tile = styled.div`
     :hover > a > span {
         transform: scale(1.1);
     }
+
+
+    @media(max-width: 989px) {
+      flex-basis: 50%;
+      height: calc(0.55 * 100vw);
+    }
 `
 let Filters = styled.div`
     display: flex;
@@ -161,6 +166,10 @@ let Filters = styled.div`
     > div {
         margin: 0 30px;
     }
+
+    @media(max-width: 989px) {
+      display: none;
+    }
 `
 
 let GridDots = styled.div`
@@ -169,6 +178,10 @@ let GridDots = styled.div`
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
+
+  @media(max-width: 989px) {
+    display: none;
+  }
 `
 
 let GridDot = styled.div`
@@ -187,6 +200,48 @@ let GridDot = styled.div`
     background: var(--blue);
   }
 `
+
+let FiltersMobile = styled.div`
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  width: fit-content;
+  border: 1px solid black;
+  padding: 2px;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+
+  * {
+    font-family: "Ciron";
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  > div:nth-child(1) {
+    position: relative;
+    transform: rotate(180deg);
+    top: -1px;
+  }
+
+  > div:nth-child(2) {
+    position: relative;
+    top: 1px;
+    width: 150px;
+    text-align: center;
+  }  
+
+  > div:nth-child(3) {
+    position: relative;
+    top: 1.5px;
+  }  
+
+  @media(max-width: 989px) {
+    display: flex;
+  }
+`
+
+let Arrow = styled.div``
 
 
 
@@ -315,7 +370,6 @@ let gridArray = [];
     ];
   
     setFilters(preFiltersArray)
-
   }, []);
 
   let clickFilter = (index) => {
@@ -326,7 +380,6 @@ let gridArray = [];
     newFilters[index].active = true;
   
     setFilters(JSON.parse(JSON.stringify(newFilters)));
-
   }
 
 
@@ -336,92 +389,6 @@ let gridArray = [];
 
     setCurrentFilter(currentFilterLabel)
   }, [filters])
-
-//   useEffect(() => {
-    
-//       let filteredProjectsArray = [];
-
-//       let tags = activeTags.map(item => {
-//         if(item.isActive === true) {
-//           return item.label
-//         }
-//       })
-
-//       tags = tags.filter(item => item !== undefined)
-
-//       allProjects?.forEach(item => {
-//         item.tags?.forEach(tag => {
-//           tags.forEach(tagTwo => {
-//             if(tag.trim().toLowerCase() === tagTwo.trim().toLowerCase()) {
-//               filteredProjectsArray.push(item)
-//             }
-//           })
-//         })
-//       })
-
-//       let copyProjects = []
-
-//       copyProjects = JSON.parse(JSON.stringify(all))  
-      
-//       // Hide/Show Island ?
-
-//       copyProjects.forEach(item => {
-//         let show = 0;
-
-//         item.projects?.forEach(itemTwo => {
-//           filteredProjectsArray.forEach(itemThree => {
-//             if(itemTwo.project?._ref === itemThree._id) {
-//               show += 1;
-//             }
-//           })
-//         })
-
-//         if(show > 0) {
-//           item.show = true
-//         } else {
-//           item.show = false
-//         }
-//       })
-
-      
-//       // Hide/Show Project ?
-
-//       copyProjects.forEach(item => {
-
-//         item.projects?.forEach(itemTwo => {
-//           let show = 0;
-
-//           filteredProjectsArray.forEach(itemThree => {
-//             if(itemTwo.project?._ref === itemThree._id) {
-//               show += 1;
-//             }
-//           })
-
-//           if(show > 0) {
-//             itemTwo.show = true
-//           } else {
-//             itemTwo.show = false
-//           }          
-//         })
-//       })
-
-//       if(tags.length === 0) {
-//         copyProjects.forEach((item, index) => {
-//           item.show = true
-
-//           item.projects?.forEach(itemTwo => {
-//               itemTwo.show = true
-//           })
-//         })
-//       }
-    
-//       if(copyProjects.length === 0) return 
-
-//       setAll(copyProjects)
-//       allRef.current = copyProjects
-
-//   }, [activeTags])
-
 
 
 let selectDot = () => {
@@ -463,6 +430,39 @@ let changeGridIndex = (e) => {
   }, 1500)
 }
 
+let clickFilterMobile = (direction) => {
+  let newFilters = [];
+  newFilters = preFiltersArray;
+  let currentFilterIndex = 0;
+
+  newFilters.forEach((item, index) => {
+    if(item.active === true) {
+      currentFilterIndex = index
+    }
+  })
+
+  newFilters.forEach(item => item.active = false);
+
+  if(direction === "next") {
+    if(currentFilterIndex < 3) {
+      currentFilterIndex += 1
+    } else {
+      currentFilterIndex = 0
+    }
+  } else {
+    if(currentFilterIndex === 0) {
+      currentFilterIndex = 3
+    } else {
+      currentFilterIndex -= 1
+    }
+  }
+
+  newFilters[currentFilterIndex].active = true;
+
+  setFilters(JSON.parse(JSON.stringify(newFilters)));
+
+}
+
 
 const modalVariants = {
   initial: {opacity: 0, transform: "scale(0.99)"},
@@ -477,33 +477,80 @@ const modalVariants = {
             <div className={item.active && "active-filter"} onClick={() => clickFilter(index)}>{item.label}</div>
           ))}
         </Filters>
+        <FiltersMobile>
+          <Arrow onClick={() => clickFilterMobile("prev")}>
+            <svg width="8.914" height="10.028" viewBox="0 0 8.914 10.028">
+              <path id="Polygone_2" data-name="Polygone 2" d="M5.014,0l5.014,8.914H0Z" transform="translate(8.914) rotate(90)"/>
+            </svg>            
+          </Arrow>
+          <div>
+          {
+            filters.map(item => {
+              if(item.active) {
+                return item.label
+              }
+            })
+          }
+          </div>
+          <Arrow onClick={() => clickFilterMobile("next")}>
+            <svg width="8.914" height="10.028" viewBox="0 0 8.914 10.028">
+              <path id="Polygone_2" data-name="Polygone 2" d="M5.014,0l5.014,8.914H0Z" transform="translate(8.914) rotate(90)"/>
+            </svg>            
+          </Arrow>          
+        </FiltersMobile>
         <InnerContainer className='inner-container' onWheel={(e) => changeGridIndex(e)}>
           <AnimatePresence mode="wait">
           {
             all.map((itemOne, indexOne) => {
-              if(indexOne === 0 && currentGridIndex === 0) {
-                return (
-                <GridOne key={0} initial="initial" animate="visible" exit="hidden" variants={modalVariants}>
-                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
-                </GridOne>
-                )}
-              if(indexOne === 1 && currentGridIndex === 1) {
-                return (
-                <GridTwo key={1} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
-                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
-                </GridTwo>
-                )} 
-              if(indexOne === 2 && currentGridIndex === 2) {
-                return (
-                <GridThree key={2} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
-                  {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
-                </GridThree>
-                )}                                  
+              
+              if(isDesktop) {
+                // Desktop
+                if(indexOne === 0 && currentGridIndex === 0) {
+                  return (
+                  <GridOne key={0} initial="initial" animate="visible" exit="hidden" variants={modalVariants}>
+                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                  </GridOne>
+                  )}
+                if(indexOne === 1 && currentGridIndex === 1) {
+                  return (
+                  <GridTwo key={1} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
+                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                  </GridTwo>
+                  )} 
+                if(indexOne === 2 && currentGridIndex === 2) {
+                  return (
+                  <GridThree key={2} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
+                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                  </GridThree>
+                  )}  
+
+              } else {
+                // Mobile
+                if(indexOne === 0) {
+                  return (
+                  <GridOne key={0} initial="initial" animate="visible" exit="hidden" variants={modalVariants}>
+                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                  </GridOne>
+                  )}
+                if(indexOne === 1) {
+                  return (
+                  <GridTwo key={1} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
+                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                  </GridTwo>
+                  )} 
+                if(indexOne === 2) {
+                  return (
+                  <GridThree key={2} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
+                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                  </GridThree>
+                  )}     
+                }
               }
             )
           }
           </AnimatePresence>
         </InnerContainer>
+
         <GridDots ref={gridDots}>
           {all.map((item, index) => {
             return <GridDot onClick={() => toSlide(index)}></GridDot>

@@ -3,8 +3,6 @@ import { useState } from "react"
 import Link from './link'
 import styled from "styled-components"
 
-import Button from './button'
-
 let Container = styled.header`
   position: relative;
   width: 100vw;
@@ -12,7 +10,7 @@ let Container = styled.header`
   align-items: flex-start;
   justify-content: space-between;
   padding: 15px 25px;
-  z-index: 0;
+  z-index: 2;
   top: 0;
   box-sizing: border-box;
   pointer-events: none;
@@ -20,10 +18,7 @@ let Container = styled.header`
   .home-button {
     pointer-events: all;
   }
-
-  // * {
-  //   transition: 0.7s;
-  // }
+}
 
   * {
     color: ${props => props.colorSchemeGray === true ? 'var(--gray)' : 'black'};
@@ -33,21 +28,15 @@ let Container = styled.header`
     fill: ${props => props.colorSchemeGray === true ? 'var(--gray)' : 'black'};
   }
 
-  // &&.gray-scheme * {
-  //   color: var(--gray);
-  // }
-
-  // &&.gray-scheme svg {
-  //   fill: var(--gray);
-  // }
-
 @media(max-width: 989px) {
+  position: ${props => props.positionFixed === true ? 'fixed' : 'relative'};
   justify-content: space-between;
   flex-direction: column;
   padding: 15px 20px;
 
   .home-button {
     width: 100%;
+    z-index: 1;
   }
 }
 
@@ -59,6 +48,7 @@ let List = styled.ul`
   justify-content: space-between;
   width: 100%;
   pointer-events: all;
+  z-index: 1;
 `
 
 let ListItem = styled.li`
@@ -100,16 +90,14 @@ const Logo = styled.div`
 `
 
 
-
-
-export default function Header({ data , colorSchemeGray}) {
+export default function Header({ data , colorSchemeGray, positionFixed}) {
   let [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
   if(data === undefined) return null;
 
   return (
-    <Container className={menuOpen ? "nav--open" : ""} colorSchemeGray={colorSchemeGray}>
+    <Container className={menuOpen ? "nav--open" : ""} colorSchemeGray={colorSchemeGray} positionFixed={positionFixed}>
       <div
         onClick={() => {setMenuOpen(false);}}
         className='home-button'
