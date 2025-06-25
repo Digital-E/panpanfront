@@ -23,7 +23,7 @@ const Container = styled(motion.div)`
     position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     z-index: 999;
     pointer-events: none;
@@ -31,6 +31,10 @@ const Container = styled(motion.div)`
     a {
       text-decoration: none;
       color: var(--white);
+    }
+
+    @media(max-width: 989px) {
+      position: fixed;
     }
 `
 
@@ -42,6 +46,10 @@ const ContainerInner = styled(motion.div)`
 
     @media(max-width: 989px) {
       height: 100%;
+
+      > header {
+        padding-bottom: 0;
+      }
     }
 `
 
@@ -75,18 +83,18 @@ const Columns = styled.div`
     }
 
     @media(max-width: 989px) {
+      position: absolute;
+      overflow: scroll;
       width: 100%;
+      height: 100%;
       padding: 0 15px;
-      margin-top: 30px;
 
       > div:first-child {
         margin: 0;
         width: 100%;
-      }
-
-      > div:first-child {
-        margin-top: 0;
-      }   
+        margin-top: 45px;
+        line-height: 1.5rem;
+      } 
       
       > div:nth-child(2) {
         margin-top: 45px;
@@ -94,16 +102,12 @@ const Columns = styled.div`
 
       * {
         font-size: 1.125rem;
-      }
-
-      > div:nth-child(1) {
-        line-height: 1.5rem;
-      }      
+      }    
     }
 `;
 
 const CloseButton = styled.div`
-    position: absolute;
+    position: fixed;
     right: 25px;
     top: 50%;
     transform: translateY(-50%);
@@ -114,6 +118,7 @@ const CloseButton = styled.div`
 
     @media(max-width: 989px) {
         left: 50%;
+        right: auto;
         transform: translateY(-50%);
         top: auto;
         bottom: 15px;
@@ -134,13 +139,6 @@ let Overlay = styled(motion.div)`
 
   @media(min-width: 990px) {
     // backdrop-filter: blur(20px);
-  }
-`
-
-let MobileSpacer = styled.div`
-  display: none;
-  @media(max-width: 989px) {
-    display: block;
   }
 `
 
@@ -189,6 +187,35 @@ let TextItemColumnText = styled.div`
   }
 `
 
+let ColumnsWrapper = styled.div`
+    position: relative;
+    height: 100%;
+
+    @media(max-width: 989px) {
+      ::before {
+        content: "";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        height: 30px;
+        width: 100%;
+        background: linear-gradient(0deg, transparent 0%, var(--blue) 80%);
+        z-index: 2;
+      } 
+
+      ::after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        height: 70px;
+        width: 100%;
+        background: linear-gradient(-180deg, transparent 0%, var(--blue) 90%);
+        z-index: 2;
+      }      
+    }   
+`
+
 
 export default function Contact({ data = {}, preview }) {
   //Context
@@ -214,10 +241,9 @@ export default function Contact({ data = {}, preview }) {
 
 
   let resize = () => {
+    let headerHeight = document.querySelector("header").getBoundingClientRect().height;
 
-    // let headerHeight = document.querySelector("header").getBoundingClientRect().height;
-
-    // document.querySelector(".mobile-spacer").style.height = `${headerHeight + 25}px`
+    document.querySelector(".columns-wrapper").style.height = `calc(100% - ${headerHeight - 15}px`
   }  
 
   useEffect(() => {
@@ -321,22 +347,23 @@ export default function Contact({ data = {}, preview }) {
                       </g>
                   </g>
                   </svg>                    
-              </CloseButton>              
-              <Columns>
-                {/* <MobileSpacer className="mobile-spacer"/> */}
-                  <div>
-                    <Body content={data?.contactData?.textcolumnone} />
-                  </div>
-                  <TextItems>
-                    {
-                      data?.contactData?.textItems?.map(item => 
-                      <TextItemColumn>
-                        <TextItemColumnTitle><p>{item.title}</p></TextItemColumnTitle>
-                        <TextItemColumnText><Body content={item?.textItem} /></TextItemColumnText>
-                      </TextItemColumn>)
-                    }
-                  </TextItems>
-              </Columns>
+              </CloseButton>
+              <ColumnsWrapper className="columns-wrapper">                 
+                <Columns>
+                    <div>
+                      <Body content={data?.contactData?.textcolumnone} />
+                    </div>
+                    <TextItems>
+                      {
+                        data?.contactData?.textItems?.map(item => 
+                        <TextItemColumn>
+                          <TextItemColumnTitle><p>{item.title}</p></TextItemColumnTitle>
+                          <TextItemColumnText><Body content={item?.textItem} /></TextItemColumnText>
+                        </TextItemColumn>)
+                      }
+                    </TextItems>
+                </Columns>
+              </ColumnsWrapper>
             </ContainerInner>
         </Container>
         <Overlay variants={overlayVariants} onClick={() => hasClicked()}/>

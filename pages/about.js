@@ -23,7 +23,7 @@ const Container = styled(motion.div)`
     position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     z-index: 999;
     pointer-events: none;
@@ -31,6 +31,10 @@ const Container = styled(motion.div)`
     a {
       text-decoration: none;
     }
+
+    @media(max-width: 989px) {
+      position: fixed;
+    }    
 `
 
 const ContainerInner = styled(motion.div)`
@@ -40,6 +44,10 @@ const ContainerInner = styled(motion.div)`
 
     @media(max-width: 989px) {
       height: 100%;
+
+      > header {
+        padding-bottom: 0;
+      }
     }
 `
 
@@ -64,27 +72,31 @@ const Columns = styled.div`
     }
 
     @media(max-width: 989px) {
+      position: absolute;
+      overflow: scroll;
+      height: 100%;
       width: 100%;
       padding: 0 15px;
-      margin: 30px auto 0 auto;
+      margin: 0px auto 0 auto;
 
       > div:first-child {
-        margin: 0;
+        margin-top: 45px;
       }
 
-      > div:first-child, > div:nth-child(1) {
-        margin-top: 0;
+
+      > div:nth-child(2) {
+          margin-bottom: 70px;
       }
 
       * {
         font-size: 1.125rem;
         line-height: 1.5rem;
-      }
+      } 
     }
 `;
 
 const CloseButton = styled.div`
-    position: absolute;
+    position: fixed;
     right: 25px;
     top: 50%;
     transform: translateY(-50%);
@@ -95,6 +107,7 @@ const CloseButton = styled.div`
 
     @media(max-width: 989px) {
         left: 50%;
+        right: auto;
         transform: translateY(-50%);
         top: auto;
         bottom: 15px;
@@ -118,12 +131,35 @@ let Overlay = styled(motion.div)`
   }
 `
 
-let MobileSpacer = styled.div`
-  display: none;
-  @media(max-width: 989px) {
-    display: block;
-  }
+let ColumnsWrapper = styled.div`
+    position: relative;
+    height: 100%;
+
+    @media(max-width: 989px) {
+      ::before {
+        content: "";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        height: 30px;
+        width: 100%;
+        background: linear-gradient(0deg, transparent 0%, var(--blue) 80%);
+        z-index: 2;
+      } 
+
+      ::after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        height: 70px;
+        width: 100%;
+        background: linear-gradient(-180deg, transparent 0%, var(--blue) 90%);
+        z-index: 2;
+      }      
+    }   
 `
+
 
 
 export default function About({ data = {}, preview }) {
@@ -150,10 +186,9 @@ export default function About({ data = {}, preview }) {
 
 
   let resize = () => {
+    let headerHeight = document.querySelector("header").getBoundingClientRect().height;
 
-    // let headerHeight = document.querySelector("header").getBoundingClientRect().height;
-
-    // document.querySelector(".mobile-spacer").style.height = `${headerHeight + 25}px`
+    document.querySelector(".columns-wrapper").style.height = `calc(100% - ${headerHeight - 15}px`
   }  
 
   useEffect(() => {
@@ -259,18 +294,19 @@ export default function About({ data = {}, preview }) {
                       </g>
                   </g>
                   </svg>                    
-              </CloseButton>              
-              <Columns>
-                {/* <MobileSpacer className="mobile-spacer"/> */}
-                <div>
+              </CloseButton> 
+              <ColumnsWrapper className="columns-wrapper">         
+                <Columns>
                   <div>
-                    <Body content={data?.aboutData?.textcolumnone} />
+                    <div>
+                      <Body content={data?.aboutData?.textcolumnone} />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <div><Body content={data?.aboutData?.textcolumntwo} /></div>
-                </div>
-              </Columns>
+                  <div>
+                    <div><Body content={data?.aboutData?.textcolumntwo} /></div>
+                  </div>
+                </Columns>
+              </ColumnsWrapper>    
             </ContainerInner>
         </Container>
         <Overlay variants={overlayVariants} onClick={() => hasClicked()}/>
