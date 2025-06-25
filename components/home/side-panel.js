@@ -28,12 +28,9 @@ const Container = styled(motion.div)`
     align-items: center;
     justify-content: space-between;
 
-
-    // @media(max-width: 989px) {
-    //     height: fit-content;
-    //     width: fit-content;
-    //     background: transparent;
-    // }
+    @media(max-width: 989px) {
+        justify-content: flex-start;
+    }
 `
 
 const CloseButton = styled.div`
@@ -44,10 +41,6 @@ const CloseButton = styled.div`
     cursor: pointer;
     transition: 0.2s;
     z-index: 999;
-
-    // :hover {
-    //     transform: scale(1.1);
-    // }
 
 
     @media(max-width: 989px) {
@@ -90,24 +83,12 @@ let ContainerInner = styled.div`
         width: 100%;
     }
 
-    // @media(max-width: 989px) {
-    //     position: fixed;
-    //     height: calc(100% - 230px) !important;
-    //     width: calc(100% - 60px) !important;
-    //     top: 90px !important;
-    //     left: 50% !important;
-    //     transform: translateX(-50%)!important;
-    //     z-index: 999;
-    //     box-sizing: border-box;
-    //     pointer-events: all; 
-    //     border-radius: 20px;
-    //     flex-direction: column;
-
-    //     > div {
-    //         flex-basis: 100%;
-    //         padding: 30px 10px;
-    //     }
-    // }
+    @media(max-width: 989px) {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0 20px;
+        margin-top: 80px;
+    }
 `
 
 let BottomBar = styled.div`
@@ -133,11 +114,11 @@ let BottomBar = styled.div`
 
     @media(max-width: 989px) {
         padding: 25px 15px;
+        margin-top: auto;
     }
 `
 
 let Logo = styled.div`
-    // position: fixed;
     top: 0;
     left: 0;
     padding: 15px 25px;
@@ -153,11 +134,12 @@ let Logo = styled.div`
     }
 
     @media(max-width: 989px) {
-        padding: 15px;
+        padding: 15px 20px;
         width: 100%;
         box-sizing: border-box;
         flex-direction: column;
         align-items: flex-start;
+        margin-top: 30px;
 
         > div {
             width: 100%;
