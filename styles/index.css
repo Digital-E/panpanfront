@@ -103,7 +103,8 @@ a {
 }
 
 a:hover, button:hover {
-    color: #70706f;
+    /* color: #70706f !important; */
+    opacity: 0.9 !important;
 }
 
 .button {
@@ -131,7 +132,11 @@ a:hover, button:hover {
   }
 
   .plyr {
-    font-family: 'FluxischElse Regular';
+    font-family: 'Ciron Medium';
+  }
+
+  .plyr__time {
+    font-size: 9px;
   }
 
   .plyr__volume {
@@ -140,17 +145,43 @@ a:hover, button:hover {
   }
   
   .plyr__tooltip {
+    font-family: 'Ciron Medium';
+    font-size: 9px;
+    text-transform: uppercase;
     backdrop-filter: blur(100px);
+    border-radius: 0;
   }
 
 
 .plyr--full-ui input[type=range] {
-    color: black !important;
+    color: var(--white) !important;
 }
 
-.plyr__control.plyr__tab-focus, .plyr__control:hover, .plyr__control[aria-expanded=true] {
-    background: black !important;
+.plyr__control {
+    line-height: 0 !important;
 }
+
+.plyr__control[data-plyr=play] .icon--not-pressed,
+.plyr__control[data-plyr=play] .icon--pressed,
+.plyr__control[data-plyr=fullscreen] .icon--not-pressed,
+.plyr__control[data-plyr=fullscreen] .icon--pressed 
+{
+    display: none;
+}
+
+.label--not-pressed.plyr__sr-only,
+.label--pressed.plyr__sr-only
+ {
+    font-family: 'Ciron Medium';
+    top: -1px;
+    font-size: 9px;
+    text-transform: uppercase;
+    position: relative !important;
+}
+
+/* .plyr__control.plyr__tab-focus, .plyr__control:hover, .plyr__control[aria-expanded=true] {
+    background: black !important;
+} */
 
 .plyr--audio .plyr__controls {
     color: black !important;
@@ -203,9 +234,6 @@ a:hover, button:hover {
 /*                                    Fonts                                   */
 /* -------------------------------------------------------------------------- */
 
-span {
-    /* font-family: "Times SPAA"; */
-}
 
 h1, .h1 {
     font-family: "Ciron";

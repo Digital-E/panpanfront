@@ -40,11 +40,12 @@ const CloseButton = styled.div`
     transform: translateY(-50%);
     cursor: pointer;
     transition: 0.2s;
-    z-index: 999;
+    z-index: 2;
 
 
     @media(max-width: 989px) {
         left: 50%;
+        right: auto;
         transform: translateY(-50%);
         top: auto;
         bottom: 15px;
@@ -66,7 +67,9 @@ let Overlay = styled(motion.div)`
 let ContainerInner = styled.div`
     display: flex;
     background: transparent;
-    width: 75%;
+    width: 0;
+    opacity: 0;
+    transition: opacity 1s;
 
     > div > h1 {
         padding-right: 50px;
@@ -85,15 +88,13 @@ let ContainerInner = styled.div`
 
     @media(max-width: 989px) {
         box-sizing: border-box;
-        width: 100%;
-        padding: 0 20px;
+        padding: 0 15px;
         margin-top: 80px;
     }
 `
 
 let BottomBar = styled.div`
-    // position: fixed;
-    z-index: 999;
+    z-index: 0;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -134,7 +135,7 @@ let Logo = styled.div`
     }
 
     @media(max-width: 989px) {
-        padding: 15px 20px;
+        padding: 20px 15px 0 15px;
         width: 100%;
         box-sizing: border-box;
         flex-direction: column;
@@ -207,26 +208,57 @@ export default ({ preview, data }) => {
         const Plyr = require('plyr');
 
         setTimeout(() => {
-            const players = Plyr.setup('.player');
+            let player = Plyr.setup('.player', {controls: ['play', 'progress', 'current-time', 'fullscreen']});
+
+            // player[0].on('ready', (event) => {
+            player[0].on('progress', (event) => {
+                resize();
+              });
         }, 0)
 
     }, [])
 
     let resize = () => {
         if(document.querySelector(".plyr")) {
+        let aspectRatio = 
+        parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[0])
+        /
+        parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[1])
+        ;
+
         document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - 200}px`
-        document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 200)* 1.777}px`
+        document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 200) * aspectRatio}px`
+
+        if(aspectRatio < 0.6) {
+            document.querySelector('.container-inner').style.width = "30%";
+
+            if(window.innerWidth < 990) {
+                document.querySelector('.container-inner').style.marginTop = "30px";
+            }
+        } else {
+            if(window.innerWidth < 990) {
+                document.querySelector('.container-inner').style.width = "100%";
+            } else {
+                document.querySelector('.container-inner').style.width = "75%";
+            }
         }
-        if(window.innerWidth > 989) {
-            setTimeout(() => {
+
+        document.querySelector('.container-inner').style.opacity = 1;
+        }
+
+        // if(window.innerWidth > 989) {
+        //     setTimeout(() => {
 
     
-            }, 10)
-        }
+        //     }, 10)
+        // }
     }
 
     useEffect(() => {
-        resize();
+
+        setTimeout(() => {
+            resize();
+        }, 2000)
 
         window.addEventListener('resize', resize)
 
@@ -294,12 +326,12 @@ export default ({ preview, data }) => {
                     </g>
                     </svg>                    
                 </CloseButton>
-                <ContainerInner>
+                <ContainerInner className="container-inner">
                     <Video data={data} />
                 </ContainerInner>                
                 <BottomBar>
-                    <div><Link>Previous <br/> Project</Link></div>
-                    <div><Link>Next <br/> Project</Link></div>
+                    <div><Link href={"/projects/dior-parfums-tatiana"}>Previous <br/> Project</Link></div>
+                    <div><Link href={"/projects/dior-men-trailer-max-richter"}>Next <br/> Project</Link></div>
                 </BottomBar>
             </Container>
             <Overlay variants={variants} onClick={() => hasClicked()}/>

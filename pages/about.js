@@ -48,7 +48,7 @@ const ContainerInner = styled(motion.div)`
 `
 
 
-const Columns = styled.div`
+const Columns = styled(motion.div)`
     position: relative;
     z-index: 1;
     box-sizing: border-box;
@@ -184,7 +184,7 @@ export default function About({ data = {}, preview }) {
   let resize = () => {
     let headerHeight = document.querySelector("header").getBoundingClientRect().height;
 
-    document.querySelector(".columns-wrapper").style.height = `calc(100% - ${headerHeight - 15}px`
+    document.querySelector(".columns-wrapper").style.height = `calc(100% - ${headerHeight}px`
   }  
 
   useEffect(() => {
@@ -253,16 +253,40 @@ export default function About({ data = {}, preview }) {
         y: 0,
         transition: {
             duration: 0.5,
+            // ease: "easeInOut"
             // delay: 0.5
         }
       },
       pageExit: {
         y: "-100%",
         transition: {
-            duration: 0.5
+            duration: 0.5,
+            // ease: "easeInOut"
         },
       }
-  }    
+  }   
+  
+  let innervariants = {
+    pageInitial: {
+      opacity: 0,
+      transition: {
+          duration: 0
+      },        
+    },
+    pageAnimate: {
+      opacity: 1,
+      transition: {
+          duration: 1,
+          delay: 0.1
+      }
+    },
+    pageExit: {
+      opacity: 0,
+      transition: {
+          duration: 0.2
+      },
+    }
+  }  
 
   return (
     <>
@@ -292,7 +316,9 @@ export default function About({ data = {}, preview }) {
                   </svg>                    
               </CloseButton> 
               <ColumnsWrapper className="columns-wrapper">         
-                <Columns>
+                <Columns 
+                // variants={innervariants}
+                >
                   <div>
                     <div>
                       <Body content={data?.aboutData?.textcolumnone} />

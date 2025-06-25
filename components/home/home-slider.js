@@ -55,7 +55,7 @@ const InnerContainer = styled.div`
     overflow: scroll;
     height: 100%;
     margin-top: 0;
-    padding: 0px 15px;
+    padding: 0px 10px;
     padding-top: 60px;
   }
 `
@@ -151,6 +151,10 @@ let Tile = styled.div`
 
     :hover > a > span {
         transform: scale(1.1);
+    }
+
+    :hover > a {
+      opacity: 1 !important;
     }
 
 
