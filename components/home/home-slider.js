@@ -21,6 +21,21 @@ import Image from '../image'
 
 
 const Container = styled.div`
+  @media(max-width: 989px) {
+    position: relative;
+    height: 100%;
+
+    ::before {
+      content: "";
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      height: 30px;
+      width: 100%;
+      background: linear-gradient(0deg, transparent 0%, var(--white) 80%);
+      z-index: 2;
+    }      
+  }
 `
 
 const InnerContainer = styled.div`
@@ -37,9 +52,11 @@ const InnerContainer = styled.div`
 
   @media(max-width: 989px) {
     position: relative;
-    height: auto;
+    overflow: scroll;
+    height: 100%;
     margin-top: 0;
-    padding-top: 30px;
+    padding: 0px 15px;
+    padding-top: 60px;
   }
 `
 
@@ -52,6 +69,7 @@ const GridOne = styled(motion.div)`
   @media(max-width: 989px) {
     display: flex;
     flex-wrap: wrap;
+    height: fit-content;
   }
 `
 
@@ -64,6 +82,7 @@ const GridTwo = styled(motion.div)`
   @media(max-width: 989px) {
     display: flex;
     flex-wrap: wrap;
+    height: fit-content;
   }  
 `
 
@@ -76,6 +95,7 @@ const GridThree = styled(motion.div)`
   @media(max-width: 989px) {
     display: flex;
     flex-wrap: wrap;
+    height: fit-content;
   }  
 `
 
@@ -202,7 +222,8 @@ let GridDot = styled.div`
 `
 
 let FiltersMobile = styled.div`
-  position: fixed;
+  position: absolute;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: none;
@@ -243,6 +264,7 @@ let FiltersMobile = styled.div`
 
 let Arrow = styled.div``
 
+let GridsContainer = styled(motion.div)``
 
 
 let overlayVariants = {
@@ -463,6 +485,24 @@ let clickFilterMobile = (direction) => {
 
 }
 
+let resize = () => {
+  let headerHeight = document.querySelector("header").getBoundingClientRect().height;
+
+  document.querySelector(".home-container").style.height = `calc(100% - ${headerHeight}px`
+}  
+
+useEffect(() => {
+  // setTimeout(() => {
+    resize();
+  // }, 300)
+
+  window.addEventListener('resize', resize)
+
+  return () => {
+      window.removeEventListener('resize', resize)
+  }
+}, []);
+
 
 const modalVariants = {
   initial: {opacity: 0, transform: "scale(0.99)"},
@@ -471,7 +511,7 @@ const modalVariants = {
 }
 
   return (
-    <Container>
+    <Container className="home-container">
         <Filters>
           {filters.map((item, index) => (
             <div className={item.active && "active-filter"} onClick={() => clickFilter(index)}>{item.label}</div>

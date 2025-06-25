@@ -44,10 +44,6 @@ const ContainerInner = styled(motion.div)`
 
     @media(max-width: 989px) {
       height: 100%;
-
-      > header {
-        padding-bottom: 0;
-      }
     }
 `
 

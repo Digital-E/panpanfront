@@ -32,7 +32,7 @@ let Container = styled.header`
   position: ${props => props.positionFixed === true ? 'fixed' : 'relative'};
   justify-content: space-between;
   flex-direction: column;
-  padding: 15px 20px;
+  padding: 15px 20px 0 20px;
 
   .home-button {
     width: 100%;

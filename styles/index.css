@@ -40,6 +40,8 @@ body {
     height: 100%;
     position: fixed;
     overflow: hidden;
+    opacity: 0;
+    transition: opacity 1s;
 }
 
 @media(max-width: 989px) {

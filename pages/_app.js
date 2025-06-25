@@ -54,28 +54,12 @@ let Footer = styled.footer`
   }
 `
 
-let MobileHeaderSpacer = styled.div`
-  > header {
-    opacity: 0;
-  }
-
-  @media(min-width: 990px) {
-    display: none;
-  }
-`
 
 let Wrapper = styled.div`
+
   @media(max-width: 989px) {
-      > header::before {
-        content: "";
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        height: 100%;
-        width: 100%;
-        background: linear-gradient(0deg, transparent 0%, var(--white) 30%);
-        z-index: 0;
-      }  
+      position: fixed;
+      height: 100%;
 
       > footer::before {
         content: "";
@@ -99,8 +83,12 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(() => {
     setTimeout(() => {
-      document.querySelector("#__next").style.opacity = 1
-    }, 250)
+      document.querySelector("body").style.opacity = 1
+    }, 500)
+
+    return () => {
+      // window.scrollTo(0, 100)
+    }
   },[])
 
 
@@ -135,10 +123,10 @@ function MyApp({ Component, pageProps, router }) {
         pageProps.data?.homeData !== undefined ?
         (
           <Wrapper>
-            <Header data={pageProps.data?.menuData} positionFixed={true} />
-            <MobileHeaderSpacer>
+            <Header data={pageProps.data?.menuData} positionFixed={false} />
+            {/* <MobileHeaderSpacer>
               <Header data={pageProps.data?.menuData} />
-            </MobileHeaderSpacer>
+            </MobileHeaderSpacer> */}
             <HomeSlider allProjects={pageProps.data?.allProjectsData} />
             <Footer>
               <div>Creative Production Company</div>
@@ -166,7 +154,10 @@ function MyApp({ Component, pageProps, router }) {
       </CookieConsent> */}              
       {/* <Component {...pageProps} /> */}
       {/* <Lottie animationData={animation} loop={true} /> */}
-      <AnimatePresence mode='wait' onExitComplete={() => { window.scrollTo(0,0) }}>   
+      <AnimatePresence 
+        mode='wait' 
+        // onExitComplete={() => { window.scrollTo(0,0) }}
+        >   
         <motion.div key={router.asPath} initial="pageInitial" animate="pageAnimate" exit="pageExit" variants={desktopVariants}> 
           <Component {...pageProps} />
         </motion.div>
