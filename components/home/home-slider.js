@@ -21,6 +21,9 @@ import Image from '../image'
 
 
 const Container = styled.div`
+  opacity: 0;
+  transition: opacity 1s;
+
   @media(max-width: 989px) {
     position: relative;
     height: 100%;

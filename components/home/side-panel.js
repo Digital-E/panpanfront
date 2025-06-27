@@ -67,7 +67,7 @@ let Overlay = styled(motion.div)`
 let ContainerInner = styled.div`
     display: flex;
     background: transparent;
-    width: 0;
+    width: 100%;
     opacity: 0;
     transition: opacity 1s;
 
@@ -208,13 +208,46 @@ export default ({ preview, data }) => {
         const Plyr = require('plyr');
 
         setTimeout(() => {
-            let player = Plyr.setup('.player', {controls: ['play', 'progress', 'current-time', 'fullscreen']});
+            let player = Plyr.setup('.player', 
+                {controls: ['play', 'progress', 'current-time', 'fullscreen'],
+                fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
+                });
 
             // player[0].on('ready', (event) => {
-            player[0].on('progress', (event) => {
+            player[0].on('ready', (event) => {
                 resize();
               });
         }, 0)
+
+
+        // Get video dimensions
+        // $.getJSON( "https://vimeo.com/api/oembed.json?url=https://vimeo.com/" + vimeoVideoID, { format: "json" }, function (data) { console.log(data.width); console.log(data.height); } );
+
+        async function getData() {
+            const url = "https://vimeo.com/api/oembed.json?url=https://vimeo.com/" + data.videoId;
+            try {
+              const response = await fetch(url);
+              if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+              }
+          
+              const json = await response.json();
+
+              let aspectRatio = json.width / json.height;
+
+              document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - 200}px`
+              document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 200) * aspectRatio}px`
+
+              setTimeout(() => {
+                document.querySelector('.container-inner').style.opacity = 1;
+              }, 750)
+
+            } catch (error) {
+              console.error(error.message);
+            }
+          }
+
+          getData();
 
     }, [])
 
@@ -243,7 +276,7 @@ export default ({ preview, data }) => {
             }
         }
 
-        document.querySelector('.container-inner').style.opacity = 1;
+        // document.querySelector('.container-inner').style.opacity = 1;
         }
 
         // if(window.innerWidth > 989) {
@@ -294,8 +327,6 @@ export default ({ preview, data }) => {
             }
         }
     }
-    
-
     
 
     return (

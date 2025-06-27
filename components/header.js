@@ -21,11 +21,11 @@ let Container = styled.header`
 }
 
   * {
-    color: ${props => props.colorSchemeGray === true ? 'var(--gray)' : 'black'};
+    color: ${props => props.colorSchemeGray === true ? 'var(--white)' : 'black'};
   }
 
   svg {
-    fill: ${props => props.colorSchemeGray === true ? 'var(--gray)' : 'black'};
+    fill: ${props => props.colorSchemeGray === true ? 'var(--white)' : 'black'};
   }
 
 @media(max-width: 989px) {
