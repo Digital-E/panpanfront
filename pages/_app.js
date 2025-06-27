@@ -79,7 +79,7 @@ let LottieWrapper = styled.div`
     top: 5px;
     left: 0px;
     position: fixed;
-    height: fit-content !important;
+    height: auto !important;
     transition: width 1s;
   }
 

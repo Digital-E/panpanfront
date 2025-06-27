@@ -29,6 +29,7 @@ const Container = styled(motion.div)`
     justify-content: space-between;
 
     @media(max-width: 989px) {
+        height: 100%;
         justify-content: flex-start;
     }
 `
@@ -259,6 +260,7 @@ export default ({ preview, data }) => {
         parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[1])
         ;
 
+        
         document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - 200}px`
         document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 200) * aspectRatio}px`
 
@@ -266,6 +268,7 @@ export default ({ preview, data }) => {
             document.querySelector('.container-inner').style.width = "30%";
 
             if(window.innerWidth < 990) {
+                document.querySelector('.container-inner').style.width = "100%";
                 document.querySelector('.container-inner').style.marginTop = "30px";
             }
         } else {
@@ -274,6 +277,10 @@ export default ({ preview, data }) => {
             } else {
                 document.querySelector('.container-inner').style.width = "75%";
             }
+        }
+
+        if(window.innerWidth < 990) {
+            document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 340) * aspectRatio}px`
         }
 
         // document.querySelector('.container-inner').style.opacity = 1;
