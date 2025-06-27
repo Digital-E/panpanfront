@@ -280,7 +280,7 @@ export default ({ preview, data }) => {
         }
 
         if(window.innerWidth < 990) {
-            document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 340) * aspectRatio}px`
+            document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 270) * aspectRatio}px`
         }
 
         // document.querySelector('.container-inner').style.opacity = 1;
