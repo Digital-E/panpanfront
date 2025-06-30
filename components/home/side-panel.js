@@ -12,7 +12,7 @@ import Link  from '../link'
 
 // import Plyr from 'plyr';
 
-import Video from '../video';
+import Video from '../video-no-embed';
 
 
 const Container = styled(motion.div)`
@@ -84,7 +84,8 @@ let ContainerInner = styled.div`
 
     .plyr {
         height: 100%;
-        width: 100%;
+        min-width: 0;
+        // width: 100%;
     }
 
     @media(max-width: 989px) {
@@ -214,9 +215,10 @@ export default ({ preview, data }) => {
                 fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
                 });
 
-            // player[0].on('ready', (event) => {
+            // // player[0].on('ready', (event) => {
             player[0].on('ready', (event) => {
                 resize();
+                document.querySelector('.container-inner').style.opacity = 1;
               });
         }, 0)
 
@@ -225,7 +227,8 @@ export default ({ preview, data }) => {
         // $.getJSON( "https://vimeo.com/api/oembed.json?url=https://vimeo.com/" + vimeoVideoID, { format: "json" }, function (data) { console.log(data.width); console.log(data.height); } );
 
         async function getData() {
-            const url = "https://vimeo.com/api/oembed.json?url=https://vimeo.com/" + data.videoId;
+            // const url = "https://vimeo.com/api/oembed.json?url=https://vimeo.com/" + data.videoId;
+            const url = "https://vimeo.com/api/oembed.json?url=" + data.videoId;
             try {
               const response = await fetch(url);
               if (!response.ok) {
@@ -236,8 +239,17 @@ export default ({ preview, data }) => {
 
               let aspectRatio = json.width / json.height;
 
-              document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - 200}px`
-              document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 200) * aspectRatio}px`
+              let headerHeight = document.querySelector(".side-panel-logo").getBoundingClientRect().height;
+              let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 15;
+              let containerInnerMargin = document.querySelector(".container-inner").getBoundingClientRect().marginTop;
+              
+              let videoHeightRemove = headerHeight + footerHeight + containerInnerMargin
+
+              console.log(aspectRatio)
+
+
+              document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight)}px`
+              document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio}px`
 
               setTimeout(() => {
                 document.querySelector('.container-inner').style.opacity = 1;
@@ -248,21 +260,29 @@ export default ({ preview, data }) => {
             }
           }
 
-          getData();
+        //   getData();
 
     }, [])
 
     let resize = () => {
         if(document.querySelector(".plyr")) {
-        let aspectRatio = 
-        parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[0])
-        /
-        parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[1])
-        ;
+        // let aspectRatio = 
+        // parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[0])
+        // /
+        // parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[1])
+        // ;
 
+        let aspectRatio = 
+        document.querySelector(".plyr").getBoundingClientRect().width
+        /
+        document.querySelector(".plyr").getBoundingClientRect().height
+
+        let headerHeight = document.querySelector(".side-panel-logo").getBoundingClientRect().height;
+        let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 15;
+        // let containerInnerMargin = document.querySelector(".container-inner").style;
         
-        document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - 200}px`
-        document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 200) * aspectRatio}px`
+        document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 80)}px`
+        document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight))}px`
 
         if(aspectRatio < 0.6) {
             document.querySelector('.container-inner').style.width = "30%";
@@ -270,6 +290,7 @@ export default ({ preview, data }) => {
             if(window.innerWidth < 990) {
                 document.querySelector('.container-inner').style.width = "100%";
                 document.querySelector('.container-inner').style.marginTop = "30px";
+                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 30)}px`
             }
         } else {
             if(window.innerWidth < 990) {
@@ -279,9 +300,9 @@ export default ({ preview, data }) => {
             }
         }
 
-        if(window.innerWidth < 990) {
-            document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 270) * aspectRatio}px`
-        }
+        // if(window.innerWidth < 990) {
+        //     document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 270) * aspectRatio}px`
+        // }
 
         // document.querySelector('.container-inner').style.opacity = 1;
         }
@@ -298,7 +319,7 @@ export default ({ preview, data }) => {
 
         setTimeout(() => {
             resize();
-        }, 2000)
+        }, 0)
 
         window.addEventListener('resize', resize)
 
@@ -339,7 +360,7 @@ export default ({ preview, data }) => {
     return (
         <>
             <Container ref={containerRef} variants={variants}>
-                <Logo>
+                <Logo className="side-panel-logo">
                     <div onClick={() => hasClicked()}>
                         <svg viewBox="0 0 936 153">
                         <path class="st0" d="M378,0h0c-39.76,0-72,32.24-72,72h0v44.15c0,.47.38.85.85.85h62.5c.47,0,.85-.38.85-.85v-51.82c0-3.97,2.82-7.52,6.75-8.08,4.9-.7,9.09,3.08,9.09,7.84v52.07c0,.47.38.85.85.85h62.26c.47,0,.85-.38.85-.85v-44.15h0C450,32.24,417.76,0,378,0Z"/>
