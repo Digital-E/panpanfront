@@ -222,9 +222,13 @@ export default ({ preview, data }) => {
                 fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
                 });
 
-            player[0].on('progress', (event) => {
+            player[0].on('loadeddata', (event) => {
                 // document.querySelector('.container-inner').style.opacity = 1;
                 // document.querySelector('.plyr__video-wrapper').style.opacity = 1;
+                resize();
+                setTimeout(() => {
+                    document.querySelector(".plyr").style.opacity = 1;
+                }, 250)
                 // document.querySelector(".plyr").style.opacity = 1;
               });
         }, 0)
@@ -263,8 +267,8 @@ export default ({ preview, data }) => {
               
             //   let videoHeightRemove = headerHeight + footerHeight + containerInnerMargin
 
-              document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight)}px`
-              document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio}px`
+            //   document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight)}px`
+            //   document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio}px`
 
             //   document.querySelector(".plyr video").setAttribute('height', json.height)
             //   document.querySelector(".plyr video").setAttribute('width', json.width)
@@ -277,7 +281,7 @@ export default ({ preview, data }) => {
               setTimeout(() => {
                 // document.querySelector('.container-inner').style.opacity = 1;
                 // document.querySelector(".plyr").style.opacity = 1;
-                document.querySelector(".plyr").style.opacity = 1;
+                // document.querySelector(".plyr").style.opacity = 1;
               }, 0)
 
             } catch (error) {
