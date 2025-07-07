@@ -218,15 +218,17 @@ export default ({ preview, data }) => {
         const Plyr = require('plyr');
         let player = null;
 
-        player = Plyr.setup(`.player-${data._id}`, 
-            {controls: ['play', 'progress', 'current-time', 'fullscreen'],
-            fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
+        setTimeout(() => {
+            player = Plyr.setup(`.player-${data._id}`, 
+                {controls: ['play', 'progress', 'current-time', 'fullscreen'],
+                fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
+                });
+    
+            player[0].on('canplay', (event) => {
+                resize();
+                document.querySelector(".plyr").style.opacity = 1;
             });
-
-        player[0].on('canplay', (event) => {
-            resize();
-            document.querySelector(".plyr").style.opacity = 1;
-        });
+        }, 100)
 
 
         // Get video dimensions
