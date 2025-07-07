@@ -309,7 +309,7 @@ function MyApp({ Component, pageProps, router }) {
             // onProgress={(e) => console.log(e)}
             // onCanPlayThrough={() => console.log('loaded')}
             // src={videoId}
-            src={`https://player.vimeo.com/progressive_redirect/playback/757612506/rendition/540p/file.mp4?loc=external&signature=bc650d11588bc66858d100f21dde8ad2188c5af4cc780b2c927ce812b700dbfe`}
+            src={`https://player.vimeo.com/progressive_redirect/playback/1094423995/rendition/540p/file.mp4?loc=external&log_user=0&signature=95c743461e52cfe450e28c9b355114ae53f6176e4beed39f368696dcee4282b0`}
             // onLoadedData={hasLoadedFunc}
             // data-poster="/path/to/poster.jpg"
         />
@@ -326,7 +326,7 @@ function MyApp({ Component, pageProps, router }) {
             // onProgress={(e) => console.log(e)}
             // onCanPlayThrough={() => console.log('loaded')}
             // src={videoId}
-            src={`https://player.vimeo.com/progressive_redirect/playback/757612506/rendition/540p/file.mp4?loc=external&signature=bc650d11588bc66858d100f21dde8ad2188c5af4cc780b2c927ce812b700dbfe`}
+            src={`https://player.vimeo.com/progressive_redirect/playback/1094404837/rendition/540p/file.mp4?loc=external&log_user=0&signature=5a51b40b84fd1e87d372b31337e5713884ba6217b2869d3ed2efbac4184da6aa`}
             // onLoadedData={hasLoadedFunc}
             // data-poster="/path/to/poster.jpg"
         />

@@ -69,7 +69,6 @@ let ContainerInner = styled.div`
     display: flex;
     background: transparent;
     width: 100%;
-    opacity: 0;
     transition: opacity 1s;
 
     > div > h1 {
@@ -85,7 +84,14 @@ let ContainerInner = styled.div`
     .plyr {
         height: 100%;
         min-width: 0;
+        opacity: 0;
+        transition: opacity 1s;
         // width: 100%;
+    }
+
+    .plyr__video-wrapper {
+        // opacity: 0;
+        // display: none;
     }
 
     @media(max-width: 989px) {
@@ -183,6 +189,7 @@ let overlayVariants = {
     }
   }
 
+  let aspectRatioInitial = 0;
 
 export default ({ preview, data }) => {
     //Context
@@ -215,10 +222,10 @@ export default ({ preview, data }) => {
                 fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
                 });
 
-            // // player[0].on('ready', (event) => {
-            player[0].on('ready', (event) => {
-                resize();
-                document.querySelector('.container-inner').style.opacity = 1;
+            player[0].on('progress', (event) => {
+                // document.querySelector('.container-inner').style.opacity = 1;
+                // document.querySelector('.plyr__video-wrapper').style.opacity = 1;
+                // document.querySelector(".plyr").style.opacity = 1;
               });
         }, 0)
 
@@ -228,9 +235,18 @@ export default ({ preview, data }) => {
 
         async function getData() {
             // const url = "https://vimeo.com/api/oembed.json?url=https://vimeo.com/" + data.videoId;
-            const url = "https://vimeo.com/api/oembed.json?url=" + data.videoId;
+            // const url = "https://vimeo.com/api/oembed.json?url=" + data.videoId;
+            const url = `https://api.vimeo.com/videos/${data.videoId.split('playback/')[1].split('/')[0]}`;
+            
+            
             try {
-              const response = await fetch(url);
+              const response = await fetch(url, {
+                method:'GET',
+                headers: {
+                    'Authorization': 'bearer 465eb0e3546a402e0016059a6c8320d1',
+                    'Accept' : 'application/vnd.vimeo.*+json;version=3.4'
+                }
+              });
               if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
               }
@@ -239,28 +255,37 @@ export default ({ preview, data }) => {
 
               let aspectRatio = json.width / json.height;
 
+              aspectRatioInitial = json.width / json.height;
+
               let headerHeight = document.querySelector(".side-panel-logo").getBoundingClientRect().height;
-              let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 15;
+              let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 45;
               let containerInnerMargin = document.querySelector(".container-inner").getBoundingClientRect().marginTop;
               
-              let videoHeightRemove = headerHeight + footerHeight + containerInnerMargin
-
-              console.log(aspectRatio)
-
+            //   let videoHeightRemove = headerHeight + footerHeight + containerInnerMargin
 
               document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight)}px`
               document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio}px`
 
+            //   document.querySelector(".plyr video").setAttribute('height', json.height)
+            //   document.querySelector(".plyr video").setAttribute('width', json.width)
+            //   document.querySelector(".plyr video").style.height = `${json.height}px`
+            //   document.querySelector(".plyr video").style.width = `${json.width}px`
+
+            //   document.querySelector(".plyr__video-wrapper").style.height = `${json.height}px`
+            //   document.querySelector(".plyr__video-wrapper").style.width = `${json.width}px`
+
               setTimeout(() => {
-                document.querySelector('.container-inner').style.opacity = 1;
-              }, 750)
+                // document.querySelector('.container-inner').style.opacity = 1;
+                // document.querySelector(".plyr").style.opacity = 1;
+                document.querySelector(".plyr").style.opacity = 1;
+              }, 0)
 
             } catch (error) {
               console.error(error.message);
             }
           }
 
-        //   getData();
+          getData();
 
     }, [])
 
@@ -272,29 +297,27 @@ export default ({ preview, data }) => {
         // parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[1])
         // ;
 
-        let aspectRatio = 
-        document.querySelector(".plyr").getBoundingClientRect().width
-        /
-        document.querySelector(".plyr").getBoundingClientRect().height
+        let aspectRatio = aspectRatioInitial
 
         let headerHeight = document.querySelector(".side-panel-logo").getBoundingClientRect().height;
-        let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 15;
+        let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 45;
         // let containerInnerMargin = document.querySelector(".container-inner").style;
         
-        document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 80)}px`
-        document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight))}px`
+        document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight)}px`
+        document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio}px`
 
         if(aspectRatio < 0.6) {
-            document.querySelector('.container-inner').style.width = "30%";
+            // document.querySelector('.container-inner').style.width = "30%";
 
             if(window.innerWidth < 990) {
                 document.querySelector('.container-inner').style.width = "100%";
                 document.querySelector('.container-inner').style.marginTop = "30px";
-                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 30)}px`
+                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 45)}px`
             }
         } else {
             if(window.innerWidth < 990) {
                 document.querySelector('.container-inner').style.width = "100%";
+                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 45)}px`
             } else {
                 document.querySelector('.container-inner').style.width = "75%";
             }
@@ -317,9 +340,9 @@ export default ({ preview, data }) => {
 
     useEffect(() => {
 
-        setTimeout(() => {
-            resize();
-        }, 0)
+        // setTimeout(() => {
+        //     resize();
+        // }, 0)
 
         window.addEventListener('resize', resize)
 
