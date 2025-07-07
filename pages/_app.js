@@ -83,6 +83,10 @@ let LottieWrapper = styled.div`
     transition: width 1s;
   }
 
+  &&.no-transition-duration svg {
+    transition: 0s;
+  }
+
   @media(min-width: 990px) {
     &&.reduce-size > div > svg {
       width: 23% !important;
@@ -131,7 +135,7 @@ let IntroVideo = styled.div`
     }
 `
 
-
+let loadedVideosCount = 0;
 
 function MyApp({ Component, pageProps, router }) {
 
@@ -150,6 +154,9 @@ function MyApp({ Component, pageProps, router }) {
 
   let displayGrid = () => {
     document.querySelector(".lottie-wrapper").classList.add("reduce-size")
+    setTimeout(() => {
+      document.querySelector(".lottie-wrapper").classList.add("no-transition-duration")
+    }, 750);
     setDisplayIntroVideo("exit")
 
     setTimeout(() => {
@@ -174,12 +181,12 @@ function MyApp({ Component, pageProps, router }) {
   }  
 
   useEffect(() => {
-    setTimeout(() => {
-      document.querySelector("body").style.opacity = 1
-      document.querySelector("header").style.opacity = 0
-      document.querySelector("footer").style.opacity = 0
-      document.querySelector(".home-button").style.opacity = 0
-    }, 0)
+    // setTimeout(() => {
+    //   document.querySelector("body").style.opacity = 1
+    //   document.querySelector("header").style.opacity = 0
+    //   document.querySelector("footer").style.opacity = 0
+    //   document.querySelector(".home-button").style.opacity = 0
+    // }, 0)
 
     resize();
 
@@ -197,6 +204,25 @@ function MyApp({ Component, pageProps, router }) {
         window.removeEventListener('resize', resize)
     }
   },[])
+
+
+  let hasLoadedFunc = (e) => {
+    // hasLoadedVar = true;
+    // setHasLoaded(true)
+    loadedVideosCount += 1;
+
+    if(window.innerWidth < 990 && loadedVideosCount === 1) {
+
+    }
+    
+
+    if(loadedVideosCount === 2 || (window.innerWidth < 990 && loadedVideosCount === 1)) {
+      document.querySelector("body").style.opacity = 1
+      document.querySelector("header").style.opacity = 0
+      document.querySelector("footer").style.opacity = 0
+      document.querySelector(".home-button").style.opacity = 0  
+    }  
+  }
 
 
   let desktopVariants = {
@@ -310,7 +336,8 @@ function MyApp({ Component, pageProps, router }) {
             // onCanPlayThrough={() => console.log('loaded')}
             // src={videoId}
             src={`https://player.vimeo.com/progressive_redirect/playback/1094423995/rendition/540p/file.mp4?loc=external&log_user=0&signature=95c743461e52cfe450e28c9b355114ae53f6176e4beed39f368696dcee4282b0`}
-            // onLoadedData={hasLoadedFunc}
+            onLoadedData={hasLoadedFunc}
+            onPlay={hasLoadedFunc}
             // data-poster="/path/to/poster.jpg"
         />
         </IntroVideo>
@@ -327,7 +354,8 @@ function MyApp({ Component, pageProps, router }) {
             // onCanPlayThrough={() => console.log('loaded')}
             // src={videoId}
             src={`https://player.vimeo.com/progressive_redirect/playback/1094404837/rendition/540p/file.mp4?loc=external&log_user=0&signature=5a51b40b84fd1e87d372b31337e5713884ba6217b2869d3ed2efbac4184da6aa`}
-            // onLoadedData={hasLoadedFunc}
+            onLoadedData={hasLoadedFunc}
+            onPlay={hasLoadedFunc}
             // data-poster="/path/to/poster.jpg"
         />
         </IntroVideo>   

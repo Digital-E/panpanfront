@@ -223,12 +223,22 @@ export default ({ preview, data }) => {
                 {controls: ['play', 'progress', 'current-time', 'fullscreen'],
                 fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
                 });
+
+            player[0].muted = true
+            player[0].play()
+            player[0].pause()
+            player[0].muted = false
     
             player[0].on('canplay', (event) => {
                 resize();
                 document.querySelector(".plyr").style.opacity = 1;
             });
-        }, 100)
+
+            if(document.querySelector(".plyr")) {
+                // resize();
+                // document.querySelector(".plyr").style.opacity = 1;
+            }
+        }, 250)
 
 
         // Get video dimensions

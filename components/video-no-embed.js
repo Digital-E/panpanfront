@@ -38,6 +38,8 @@ export default function Component({ data, id }) {
         <>
             <Container>
                 <video className={`player-${id}`}
+                preload="auto"
+                // muted
                 playsInline
                 loop
                 >
