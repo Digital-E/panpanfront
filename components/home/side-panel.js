@@ -223,7 +223,7 @@ export default ({ preview, data }) => {
             fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
             });
 
-        player[0].on('loadeddata', (event) => {
+        player[0].on('canplay', (event) => {
             resize();
             document.querySelector(".plyr").style.opacity = 1;
         });
