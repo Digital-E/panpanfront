@@ -192,6 +192,7 @@ let overlayVariants = {
   let aspectRatioInitial = 0;
 
 export default ({ preview, data }) => {
+    let containerInnerRef = useRef();
     //Context
     const context = useContext(store);
     const { state, dispatch } = context;
@@ -215,23 +216,17 @@ export default ({ preview, data }) => {
         //Plyr Code
 
         const Plyr = require('plyr');
+        let player = null;
 
-        setTimeout(() => {
-            let player = Plyr.setup('.player', 
-                {controls: ['play', 'progress', 'current-time', 'fullscreen'],
-                fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
-                });
+        player = Plyr.setup(`.player-${data._id}`, 
+            {controls: ['play', 'progress', 'current-time', 'fullscreen'],
+            fullscreen: { enabled: true, fallback: true, iosNative: true, container: null },
+            });
 
-            player[0].on('loadeddata', (event) => {
-                // document.querySelector('.container-inner').style.opacity = 1;
-                // document.querySelector('.plyr__video-wrapper').style.opacity = 1;
-                resize();
-                setTimeout(() => {
-                    document.querySelector(".plyr").style.opacity = 1;
-                }, 250)
-                // document.querySelector(".plyr").style.opacity = 1;
-              });
-        }, 0)
+        player[0].on('loadeddata', (event) => {
+            resize();
+            document.querySelector(".plyr").style.opacity = 1;
+        });
 
 
         // Get video dimensions
@@ -261,28 +256,8 @@ export default ({ preview, data }) => {
 
               aspectRatioInitial = json.width / json.height;
 
-              let headerHeight = document.querySelector(".side-panel-logo").getBoundingClientRect().height;
-              let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 45;
-              let containerInnerMargin = document.querySelector(".container-inner").getBoundingClientRect().marginTop;
+              resize();
               
-            //   let videoHeightRemove = headerHeight + footerHeight + containerInnerMargin
-
-            //   document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight)}px`
-            //   document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio}px`
-
-            //   document.querySelector(".plyr video").setAttribute('height', json.height)
-            //   document.querySelector(".plyr video").setAttribute('width', json.width)
-            //   document.querySelector(".plyr video").style.height = `${json.height}px`
-            //   document.querySelector(".plyr video").style.width = `${json.width}px`
-
-            //   document.querySelector(".plyr__video-wrapper").style.height = `${json.height}px`
-            //   document.querySelector(".plyr__video-wrapper").style.width = `${json.width}px`
-
-              setTimeout(() => {
-                // document.querySelector('.container-inner').style.opacity = 1;
-                // document.querySelector(".plyr").style.opacity = 1;
-                // document.querySelector(".plyr").style.opacity = 1;
-              }, 0)
 
             } catch (error) {
               console.error(error.message);
@@ -291,21 +266,23 @@ export default ({ preview, data }) => {
 
           getData();
 
+          window.addEventListener('resize', resize)
+
+          return () => {
+              window.removeEventListener('resize', resize)
+              player[0].destroy()
+              player[0] = null
+          }
+
     }, [])
 
     let resize = () => {
         if(document.querySelector(".plyr")) {
-        // let aspectRatio = 
-        // parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[0])
-        // /
-        // parseInt(document.querySelector(".plyr").children[1].style.aspectRatio.split("/")[1])
-        // ;
 
         let aspectRatio = aspectRatioInitial
 
         let headerHeight = document.querySelector(".side-panel-logo").getBoundingClientRect().height;
         let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 45;
-        // let containerInnerMargin = document.querySelector(".container-inner").style;
         
         document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight)}px`
         document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio}px`
@@ -330,8 +307,6 @@ export default ({ preview, data }) => {
         // if(window.innerWidth < 990) {
         //     document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - 270) * aspectRatio}px`
         // }
-
-        // document.querySelector('.container-inner').style.opacity = 1;
         }
 
         // if(window.innerWidth > 989) {
@@ -341,19 +316,6 @@ export default ({ preview, data }) => {
         //     }, 10)
         // }
     }
-
-    useEffect(() => {
-
-        // setTimeout(() => {
-        //     resize();
-        // }, 0)
-
-        window.addEventListener('resize', resize)
-
-        return () => {
-            window.removeEventListener('resize', resize)
-        }
-    }, [])
 
     let hasClicked = () => {
         // setReveal(false)
@@ -412,8 +374,8 @@ export default ({ preview, data }) => {
                     </g>
                     </svg>                    
                 </CloseButton>
-                <ContainerInner className="container-inner">
-                    <Video data={data} />
+                <ContainerInner ref={containerInnerRef} className="container-inner">
+                    <Video data={data} id={data._id}/>
                 </ContainerInner>                
                 <BottomBar>
                     <div><Link href={"/projects/dior-parfums-tatiana"}>Previous <br/> Project</Link></div>

@@ -37,7 +37,7 @@ export default function Component({ data, id }) {
     return (
         <>
             <Container>
-                <video className="player" 
+                <video className={`player-${id}`}
                 playsInline
                 loop
                 >
