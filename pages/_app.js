@@ -34,6 +34,11 @@ let Footer = styled.footer`
   padding: 15px 25px;
   box-sizing: border-box;
   z-index: 1;
+  pointer-events: none;
+
+  a {
+    pointer-events: all;
+  }
 
 
   * {
@@ -56,6 +61,7 @@ let Footer = styled.footer`
 
 
 let Wrapper = styled.div`
+  background-color: var(--background);
 
   @media(max-width: 989px) {
       position: fixed;

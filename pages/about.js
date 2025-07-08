@@ -115,7 +115,7 @@ let Overlay = styled(motion.div)`
   top: 0;
   left: 0;
   opacity: 0;
-  height: 100vh !important;
+  height: 100% !important;
   width: 100vw !important;
   z-index: 1;
   transform: none !important;
@@ -147,7 +147,7 @@ let ColumnsWrapper = styled.div`
         content: "";
         position: absolute;
         left: 0px;
-        bottom: 0px;
+        bottom: 0;
         height: 70px;
         width: 100%;
         background: linear-gradient(-180deg, transparent 0%, var(--blue) 90%);
@@ -166,12 +166,16 @@ export default function About({ data = {}, preview }) {
   const isDesktop = useMediaQuery({
     query: '(min-width: 990px)'
   })
+  
 
   const router = useRouter()
 
   let containerRef = useRef();
 
+  let columnsWrapperRef = useRef();
+
   let [reveal, setReveal] = useState(false);
+  
 
 
   const slug = data?.aboutData?.slug
@@ -184,7 +188,7 @@ export default function About({ data = {}, preview }) {
   let resize = () => {
     let headerHeight = document.querySelector("header").getBoundingClientRect().height;
 
-    document.querySelector(".columns-wrapper").style.height = `calc(100% - ${headerHeight}px`
+    columnsWrapperRef.current.style.height = `calc(100% - ${headerHeight}px`
   }  
 
   useEffect(() => {
@@ -315,7 +319,7 @@ export default function About({ data = {}, preview }) {
                   </g>
                   </svg>                    
               </CloseButton> 
-              <ColumnsWrapper className="columns-wrapper">         
+              <ColumnsWrapper ref={columnsWrapperRef}>         
                 <Columns 
                 // variants={innervariants}
                 >

@@ -13,6 +13,7 @@ import Link  from '../link'
 // import Plyr from 'plyr';
 
 import Video from '../video-no-embed';
+import { head } from 'lodash';
 
 
 const Container = styled(motion.div)`
@@ -238,7 +239,7 @@ export default ({ preview, data }) => {
                 // resize();
                 // document.querySelector(".plyr").style.opacity = 1;
             }
-        }, 250)
+        }, 350)
 
 
         // Get video dimensions
@@ -294,23 +295,24 @@ export default ({ preview, data }) => {
         let aspectRatio = aspectRatioInitial
 
         let headerHeight = document.querySelector(".side-panel-logo").getBoundingClientRect().height;
-        let footerHeight = document.querySelector("footer").getBoundingClientRect().height + 45;
+        let footerHeight = document.querySelector(".bottom-bar").getBoundingClientRect().height;
         
         document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight)}px`
         document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio}px`
 
         if(aspectRatio < 0.6) {
             // document.querySelector('.container-inner').style.width = "30%";
+            document.querySelector('.container-inner').style.marginTop = 0;
 
             if(window.innerWidth < 990) {
                 document.querySelector('.container-inner').style.width = "100%";
                 document.querySelector('.container-inner').style.marginTop = "30px";
-                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 45)}px`
+                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight) - 60}px`
             }
         } else {
             if(window.innerWidth < 990) {
                 document.querySelector('.container-inner').style.width = "100%";
-                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 45)}px`
+                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight - 60)}px`
             } else {
                 document.querySelector('.container-inner').style.width = "75%";
             }
@@ -389,7 +391,7 @@ export default ({ preview, data }) => {
                 <ContainerInner ref={containerInnerRef} className="container-inner">
                     <Video data={data} id={data._id}/>
                 </ContainerInner>                
-                <BottomBar>
+                <BottomBar className='bottom-bar'>
                     <div><Link href={"/projects/dior-parfums-tatiana"}>Previous <br/> Project</Link></div>
                     <div><Link href={"/projects/dior-men-trailer-max-richter"}>Next <br/> Project</Link></div>
                 </BottomBar>
