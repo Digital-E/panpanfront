@@ -62,6 +62,7 @@ let Footer = styled.footer`
 
 let Wrapper = styled.div`
   background-color: var(--background);
+  height: 100vh;
 
   @media(max-width: 989px) {
       position: fixed;

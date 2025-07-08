@@ -232,15 +232,19 @@ export default ({ preview, data }) => {
             player[0].muted = false
     
             player[0].on('canplay', (event) => {
-                resize();
-                containerInnerRef.current.children[0].children[0].style.opacity = 1;
+                setTimeout(() => {
+                    resize();
+                }, 10)
+                setTimeout(() => {
+                    containerInnerRef.current.children[0].children[0].style.opacity = 1;
+                }, 20)
             });
 
             if(document.querySelector(".plyr")) {
                 // resize();
                 // document.querySelector(".plyr").style.opacity = 1;
             }
-        }, 250)
+        }, 0)
 
 
         // Get video dimensions
@@ -350,7 +354,8 @@ export default ({ preview, data }) => {
             // right: 0,
             opacity: 1,
             transition: {
-                duration: 0.3
+                duration: 0.3,
+                delay: 0.3
             }
         },
         pageExit: {
