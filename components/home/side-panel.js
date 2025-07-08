@@ -208,6 +208,8 @@ export default ({ preview, data }) => {
 
     let [reveal, setReveal] = useState(false);
 
+    let player = null;
+
     useEffect(() => {
         // setReveal(true)
 
@@ -217,7 +219,6 @@ export default ({ preview, data }) => {
         //Plyr Code
 
         const Plyr = require('plyr');
-        let player = null;
 
         setTimeout(() => {
             player = Plyr.setup(`.player-${data._id}`, 
@@ -232,14 +233,14 @@ export default ({ preview, data }) => {
     
             player[0].on('canplay', (event) => {
                 resize();
-                document.querySelector(".plyr").style.opacity = 1;
+                containerInnerRef.current.children[0].children[0].style.opacity = 1;
             });
 
             if(document.querySelector(".plyr")) {
                 // resize();
                 // document.querySelector(".plyr").style.opacity = 1;
             }
-        }, 350)
+        }, 250)
 
 
         // Get video dimensions
@@ -308,11 +309,13 @@ export default ({ preview, data }) => {
                 document.querySelector('.container-inner').style.width = "100%";
                 document.querySelector('.container-inner').style.marginTop = "30px";
                 document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight) - 60}px`
+                document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio - 35}px`
             }
         } else {
             if(window.innerWidth < 990) {
                 document.querySelector('.container-inner').style.width = "100%";
                 document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight - 60)}px`
+                document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio - 35}px`
             } else {
                 document.querySelector('.container-inner').style.width = "75%";
             }
