@@ -234,10 +234,10 @@ export default ({ preview, data }) => {
             player[0].on('canplay', (event) => {
                 setTimeout(() => {
                     resize();
-                }, 10)
+                }, 50)
                 setTimeout(() => {
                     containerInnerRef.current.children[0].children[0].style.opacity = 1;
-                }, 20)
+                }, 100)
             });
 
             if(document.querySelector(".plyr")) {
