@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext, useMemo } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
 
@@ -13,7 +13,6 @@ import Link  from '../link'
 // import Plyr from 'plyr';
 
 import Video from '../video-no-embed';
-import { head } from 'lodash';
 
 
 const Container = styled(motion.div)`
@@ -195,7 +194,7 @@ let overlayVariants = {
     }
   }
 
-  let aspectRatioInitial = 0;
+let aspectRatioInitial = 0;
 
 export default ({ preview, data }) => {
     let containerInnerRef = useRef();

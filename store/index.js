@@ -4,7 +4,8 @@ const initialState = {
   sidePanelOpen: false,
   currentProjectReference: '',
   savePath: '',
-  projectTransitionType: 0
+  projectTransitionType: 0,
+  aboutContactTransitionType: 0
 };
 
 const store = createContext(initialState);
@@ -18,7 +19,12 @@ const StateProvider = ({ children }) => {
         return {
           ...newState,
           projectTransitionType: action.value
-        };       
+        };  
+      case "about contact transition type":
+        return {
+          ...newState,
+          aboutContactTransitionType: action.value
+        };              
       case "sidepanel open":
         return {
           ...newState,

@@ -1,7 +1,9 @@
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState, useRef, useContext } from "react"
 import Link from './link'
 import styled from "styled-components"
+
+import { store } from '../store'
 
 let Container = styled.header`
   position: relative;
@@ -96,11 +98,40 @@ const Logo = styled.div`
 `
 
 
-export default function Header({ data , colorSchemeGray, positionFixed}) {
+export default function Header({ data , colorSchemeGray, positionFixed, aboutContactPage}) {
   let [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  let listRef = useRef()
+
+  //Context
+  const context = useContext(store);
+  const { state, dispatch } = context;  
 
   if(data === undefined) return null;
+
+  useEffect(() => {
+    if(aboutContactPage) {
+
+      listRef.current.children[1].children[0].addEventListener('click', (e) => {
+        preventDefaultClick(e, 'about')
+      })
+
+      listRef.current.children[2].children[0].addEventListener('click', (e) => {
+        preventDefaultClick(e, 'contact')
+      })      
+    }
+  }, [])
+
+  let preventDefaultClick = (e, url) => {
+      // setReveal(false)
+      e.preventDefault()
+
+      dispatch({type: 'about contact transition type', value: 1})
+
+      setTimeout(() => {
+          router.push(url)
+      }, 0)
+  }  
 
   return (
     <Container className={menuOpen ? "nav--open" : ""} colorSchemeGray={colorSchemeGray} positionFixed={positionFixed}>
@@ -122,7 +153,7 @@ export default function Header({ data , colorSchemeGray, positionFixed}) {
         </Link>
       </div>
       <Menu className={menuOpen ? "nav--open" : ""}>
-        <List>
+        <List ref={listRef}>
           {
           data?.menuItems?.map((item, index) => {
             let isLast = index === data.menuItems.length - 1 ? true : false

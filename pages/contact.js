@@ -55,7 +55,7 @@ const ContainerInner = styled(motion.div)`
 `
 
 
-const Columns = styled(motion.div)`
+const Columns = styled.div`
     position: relative;
     z-index: 1;
     box-sizing: border-box;
@@ -108,7 +108,7 @@ const Columns = styled(motion.div)`
 `;
 
 const CloseButton = styled.div`
-    position: fixed;
+    position: absolute;
     right: 25px;
     top: 50%;
     transform: translateY(-50%);
@@ -217,6 +217,8 @@ let ColumnsWrapper = styled.div`
     }   
 `
 
+let ContainerInnerInner = styled(motion.div)``
+
 
 export default function Contact({ data = {}, preview }) {
   //Context
@@ -250,6 +252,11 @@ export default function Contact({ data = {}, preview }) {
   }  
 
   useEffect(() => {
+
+    setTimeout(() => {
+      dispatch({type: 'about contact transition type', value: 0})
+    }, 1000)
+
     resize();
 
     window.addEventListener('resize', resize)
@@ -257,10 +264,6 @@ export default function Contact({ data = {}, preview }) {
     return () => {
         window.removeEventListener('resize', resize)
     }
-  }, []);
-
-  useEffect(() => {
-    // document.querySelector("header").classList.add("gray-scheme");
   }, []);
 
   let hasClicked = () => {
@@ -286,21 +289,28 @@ export default function Contact({ data = {}, preview }) {
     }
   }  
 
-  // let variants = {
-  //     open: {
-  //       opacity: 1,
-  //       display: 'flex',
-  //       transition: {
-  //           duration: 1
-  //       }
-  //     },
-  //     closed: {
-  //       opacity: 0,
-  //       transition: {
-  //           duration: 0.3
-  //       },
-  //     }
-  // }  
+  let innerInnerContainervariants = {
+      pageInitial: {
+        opacity: 0,
+        transition: {
+            duration: 0
+        },        
+      },
+      pageAnimate: {
+        opacity: 1,
+        transition: {
+            duration: 0.5,
+            delay: 0
+        }
+      },
+      pageExit: {
+        opacity: 0,
+        transition: {
+            duration: 0.5,
+            delay: 0
+        },
+      }
+  }  
 
   let variants = {
       pageInitial: {
@@ -323,28 +333,31 @@ export default function Contact({ data = {}, preview }) {
         },
       }
   }
-  
-  let innervariants = {
-    pageInitial: {
-      opacity: 0,
-      transition: {
-          duration: 0
-      },        
-    },
-    pageAnimate: {
-      opacity: 1,
-      transition: {
-          duration: 1,
-          delay: 0.1
-      }
-    },
-    pageExit: {
-      opacity: 0,
-      transition: {
-          duration: 0.2
+
+  let variantsTwo = {
+      pageInitial: {
+          opacity: 1,
+          y: 0,         
       },
-    }
-  }  
+      pageAnimate: {
+          opacity: 1,
+          y: 0,
+          transition: {
+              duration: 0,
+              delay: 0.5
+          }
+      },
+      pageExit: {
+          opacity: 0,
+          y: 0,
+          transition: {
+              duration: 0,
+              delay: 0
+          }
+      }
+  }   
+  
+  let pageTransitionVariants = [variants, variantsTwo]   
 
   return (
     <>
@@ -360,37 +373,41 @@ export default function Contact({ data = {}, preview }) {
         // initial="closed" animate={reveal ? "open" : "closed"} variants={variants}
         >
             <ContainerInner
-              variants={variants}
+              variants={pageTransitionVariants[state.aboutContactTransitionType]}
             >
-              <Header data={data?.menuData} colorSchemeGray={true} />
-              <CloseButton onClick={() => hasClicked()}>
-                  <svg width="19.414" height="19.414" viewBox="0 0 19.414 19.414">
-                  <g id="Groupe_2" data-name="Groupe 2" transform="translate(-1320.293 -413.293)">
-                      <g id="Groupe_1" data-name="Groupe 1" transform="translate(1321 414)">
-                      <line id="Ligne_1" data-name="Ligne 1" y1="18" x2="18" fill="none" stroke="#fff" stroke-width="2"/>
-                      <line id="Ligne_2" data-name="Ligne 2" x1="18" y1="18" fill="none" stroke="#fff" stroke-width="2"/>
-                      </g>
-                  </g>
-                  </svg>                    
-              </CloseButton>
-              <ColumnsWrapper ref={columnsWrapperRef}>                 
-                <Columns 
-                // variants={innervariants}
-                >
-                    <div>
-                      <Body content={data?.contactData?.textcolumnone} />
-                    </div>
-                    <TextItems>
-                      {
-                        data?.contactData?.textItems?.map(item => 
-                        <TextItemColumn>
-                          <TextItemColumnTitle><p>{item.title}</p></TextItemColumnTitle>
-                          <TextItemColumnText><Body content={item?.textItem} /></TextItemColumnText>
-                        </TextItemColumn>)
-                      }
-                    </TextItems>
-                </Columns>
-              </ColumnsWrapper>
+              <Header data={data?.menuData} colorSchemeGray={true} aboutContactPage={true} />
+              <ContainerInnerInner 
+              // variants={innerInnerContainervariants}
+              >
+                <CloseButton onClick={() => hasClicked()}>
+                    <svg width="19.414" height="19.414" viewBox="0 0 19.414 19.414">
+                    <g id="Groupe_2" data-name="Groupe 2" transform="translate(-1320.293 -413.293)">
+                        <g id="Groupe_1" data-name="Groupe 1" transform="translate(1321 414)">
+                        <line id="Ligne_1" data-name="Ligne 1" y1="18" x2="18" fill="none" stroke="#fff" stroke-width="2"/>
+                        <line id="Ligne_2" data-name="Ligne 2" x1="18" y1="18" fill="none" stroke="#fff" stroke-width="2"/>
+                        </g>
+                    </g>
+                    </svg>                    
+                </CloseButton>
+                <ColumnsWrapper ref={columnsWrapperRef}>                 
+                  <Columns 
+                  // variants={innervariants}
+                  >
+                      <div>
+                        <Body content={data?.contactData?.textcolumnone} />
+                      </div>
+                      <TextItems>
+                        {
+                          data?.contactData?.textItems?.map(item => 
+                          <TextItemColumn>
+                            <TextItemColumnTitle><p>{item.title}</p></TextItemColumnTitle>
+                            <TextItemColumnText><Body content={item?.textItem} /></TextItemColumnText>
+                          </TextItemColumn>)
+                        }
+                      </TextItems>
+                  </Columns>
+                </ColumnsWrapper>
+              </ContainerInnerInner>
             </ContainerInner>
         </Container>
         <Overlay variants={overlayVariants} onClick={() => hasClicked()}/>

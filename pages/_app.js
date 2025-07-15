@@ -235,28 +235,29 @@ function MyApp({ Component, pageProps, router }) {
   let desktopVariants = {
     pageInitial: {
       // opacity: 0,
-      opacity: 1
+      // opacity: 1
     },
     pageAnimate: {
-      opacity: 1,
-      transition: {
-        duration: 0
-      }
+      // opacity: 1,
+      // transition: {
+      //   duration: 0,
+      //   delay: 0
+      // }
     },
     pageExit: {
       // opacity: 0,
-      opacity: 1,
+      // opacity: 1,
       // filter: "blur(20px)",
-      transition: {
-        opacity: {
-          duration: 0,
+      // transition: {
+      //   opacity: {
+      //     duration: 0,
           // delay: 0.5
-          delay: 0
-        },
+        //   delay: 0
+        // },
         // filter: {
         //   duration: 0.5,
         // }
-      }
+      // }
     }
   }  
 
