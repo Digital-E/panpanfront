@@ -3,7 +3,8 @@ import React, { useReducer, createContext } from "react";
 const initialState = {
   sidePanelOpen: false,
   currentProjectReference: '',
-  savePath: ''
+  savePath: '',
+  projectTransitionType: 0
 };
 
 const store = createContext(initialState);
@@ -13,6 +14,11 @@ const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     const newState = state;
     switch (action.type) {
+      case "project transition type":
+        return {
+          ...newState,
+          projectTransitionType: action.value
+        };       
       case "sidepanel open":
         return {
           ...newState,

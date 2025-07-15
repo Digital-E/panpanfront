@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext } from 'react';
+import { useEffect, useRef, useState, useContext, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
 
@@ -112,10 +112,15 @@ let BottomBar = styled.div`
     display: flex;
     justify-content: space-between;
 
+    > div {
+        cursor: pointer;
+    }
+
     a {
         color: var(--white);
         text-decoration: none;
         text-transform: uppercase;
+        pointer-events: none;
     }
 
     > div:nth-child(2) {
@@ -210,7 +215,9 @@ export default ({ preview, data }) => {
 
     let player = null;
 
+
     useEffect(() => {
+
         // setReveal(true)
 
         document.querySelector(".loader").classList.remove("show-loader")
@@ -286,6 +293,10 @@ export default ({ preview, data }) => {
 
           window.addEventListener('resize', resize)
 
+          setTimeout(() => {
+            dispatch({type: 'project transition type', value: 0})
+          }, 1000)
+
           return () => {
               window.removeEventListener('resize', resize)
               player[0].destroy()
@@ -351,26 +362,58 @@ export default ({ preview, data }) => {
             opacity: 0
         },
         pageAnimate: {
-            // right: 0,
             opacity: 1,
             transition: {
                 duration: 0.3,
                 delay: 0.3
+                // duration: 0,
+                // delay: 0               
             }
         },
         pageExit: {
-            // right: isDesktop ? "-100%" : 0,
             opacity: 0,
             transition: {
                 duration: 0.3
+                // duration: 0
             }
         }
+    }
+
+    let variantsTwo = {
+        pageInitial: {
+            opacity: 1
+        },
+        pageAnimate: {
+            opacity: 1,
+            transition: {
+                duration: 0,
+                delay: 0
+            }
+        },
+        pageExit: {
+            opacity: 0,
+            transition: {
+                duration: 0
+            }
+        }
+    }   
+    
+    let pageTransitionVariants = [variants, variantsTwo]
+
+    let clickNextProject = (e, url) => {
+        // setReveal(false)
+
+        dispatch({type: 'project transition type', value: 1})
+
+        setTimeout(() => {
+            router.push(url)
+        }, 0)
     }
     
 
     return (
         <>
-            <Container ref={containerRef} variants={variants}>
+            <Container ref={containerRef} variants={pageTransitionVariants[state.projectTransitionType]}>
                 <Logo className="side-panel-logo">
                     <div onClick={() => hasClicked()}>
                         <svg viewBox="0 0 936 153">
@@ -400,11 +443,11 @@ export default ({ preview, data }) => {
                     <Video data={data} id={data._id}/>
                 </ContainerInner>                
                 <BottomBar className='bottom-bar'>
-                    <div><Link href={"/projects/dior-parfums-tatiana"}>Previous <br/> Project</Link></div>
-                    <div><Link href={"/projects/dior-men-trailer-max-richter"}>Next <br/> Project</Link></div>
+                    <div onClick={(e) => clickNextProject(e, "/projects/dior-parfums-tatiana")}><Link href={"/projects/dior-parfums-tatiana"}>Previous <br/> Project</Link></div>
+                    <div onClick={(e) => clickNextProject(e, "/projects/dior-men-trailer-max-richter")}><Link href={"/projects/dior-men-trailer-max-richter"}>Next <br/> Project</Link></div>
                 </BottomBar>
             </Container>
-            <Overlay variants={variants} onClick={() => hasClicked()}/>
+            <Overlay variants={pageTransitionVariants[state.projectTransitionType]} onClick={() => hasClicked()}/>
         </>
     )
 }

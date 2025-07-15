@@ -15,6 +15,8 @@ let Container = styled.header`
   box-sizing: border-box;
   pointer-events: none;
 
+
+
   .home-button {
     pointer-events: all;
   }
@@ -49,6 +51,10 @@ let List = styled.ul`
   width: 100%;
   pointer-events: all;
   z-index: 1;
+
+  > li:first-child .active-link {
+    font-family: Ciron !important;
+  }
 `
 
 let ListItem = styled.li`
