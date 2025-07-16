@@ -5,7 +5,8 @@ const initialState = {
   currentProjectReference: '',
   savePath: '',
   projectTransitionType: 0,
-  aboutContactTransitionType: 0
+  aboutContactTransitionType: 0,
+  currentAboutContactHeight: 0
 };
 
 const store = createContext(initialState);
@@ -15,6 +16,11 @@ const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     const newState = state;
     switch (action.type) {
+      case "current about contact height":
+        return {
+          ...newState,
+          currentAboutContactHeight: action.value
+        };        
       case "project transition type":
         return {
           ...newState,

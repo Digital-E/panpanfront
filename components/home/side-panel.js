@@ -85,7 +85,8 @@ let ContainerInner = styled.div`
         height: 100%;
         min-width: 0;
         opacity: 0;
-        transition: opacity 1s;
+        transition: opacity 0.6s;
+        max-height: 100%;
         // width: 100%;
     }
 
@@ -120,6 +121,10 @@ let BottomBar = styled.div`
         text-decoration: none;
         text-transform: uppercase;
         pointer-events: none;
+    }
+
+    .active-link {
+        font-family: "Ciron" !important;
     }
 
     > div:nth-child(2) {
@@ -404,9 +409,13 @@ export default ({ preview, data }) => {
 
         dispatch({type: 'project transition type', value: 1})
 
+        if(url === router.asPath) return 
+
+        containerInnerRef.current.children[0].children[0].style.opacity = 0;
+
         setTimeout(() => {
             router.push(url)
-        }, 0)
+        }, 650)
     }
     
 

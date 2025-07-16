@@ -44,9 +44,10 @@ const ContainerInner = styled(motion.div)`
     background: var(--blue);
     pointer-events: all;
     width: 100%;
+    transition: height 0.5s !important;
 
     @media(max-width: 989px) {
-      height: 100%;
+      height: 100% !important;
 
       > header {
         padding-bottom: 0;
@@ -217,13 +218,18 @@ let ColumnsWrapper = styled.div`
     }   
 `
 
-let ContainerInnerInner = styled(motion.div)``
+let ContainerInnerInner = styled(motion.div)`
+  height: 100%;
+`
 
+let containerInnerHeight = 0;
 
 export default function Contact({ data = {}, preview }) {
   //Context
   const context = useContext(store);
   const { state, dispatch } = context;  
+
+  let containerInnerRef = useRef();
 
   const isDesktop = useMediaQuery({
     query: '(min-width: 990px)'
@@ -246,16 +252,37 @@ export default function Contact({ data = {}, preview }) {
 
 
   let resize = () => {
+    // containerInnerRef.current.style.height = 'auto'
+
     let headerHeight = document.querySelector("header").getBoundingClientRect().height;
 
     columnsWrapperRef.current.style.height = `calc(100% - ${headerHeight}px`
+
+    setTimeout(() => {
+      if(containerInnerRef.current) {
+        containerInnerRef.current.style.height = `${containerInnerRef.current.getBoundingClientRect().height}px`
+        dispatch({type: 'current about contact height', value: containerInnerRef.current.getBoundingClientRect().height})
+      }
+    }, 200)
   }  
 
   useEffect(() => {
 
-    setTimeout(() => {
-      dispatch({type: 'about contact transition type', value: 0})
-    }, 1000)
+    // setTimeout(() => {
+    //   dispatch({type: 'about contact transition type', value: 0})
+    // }, 1000)
+
+    // Set Drawer Height to previous drawer height
+    containerInnerHeight = containerInnerRef.current.getBoundingClientRect().height
+
+    if(state.currentAboutContactHeight !== 0 && state.aboutContactTransitionType === 1) {
+      containerInnerRef.current.style.height = `${state.currentAboutContactHeight}px`
+
+      setTimeout(() => {
+        containerInnerRef.current.style.height = `${containerInnerHeight}px`
+        dispatch({type: 'current about contact height', value: containerInnerHeight})
+      }, 1000)
+    }    
 
     resize();
 
@@ -267,7 +294,11 @@ export default function Contact({ data = {}, preview }) {
   }, []);
 
   let hasClicked = () => {
-    router.push("/")
+    dispatch({type: 'about contact transition type', value: 0})
+
+    setTimeout(() => {
+      router.push("/")
+    }, 100)
   } 
   
   let overlayVariants = {
@@ -300,7 +331,7 @@ export default function Contact({ data = {}, preview }) {
         opacity: 1,
         transition: {
             duration: 0.5,
-            delay: 0
+            delay: 1.5
         }
       },
       pageExit: {
@@ -314,12 +345,14 @@ export default function Contact({ data = {}, preview }) {
 
   let variants = {
       pageInitial: {
+        opacity: 1,
         y: "-100%",
         transition: {
             duration: 0
         },        
       },
       pageAnimate: {
+        opacity: 1,
         y: 0,
         transition: {
             duration: 0.5,
@@ -327,6 +360,7 @@ export default function Contact({ data = {}, preview }) {
         }
       },
       pageExit: {
+        opacity: 1,
         y: "-100%",
         transition: {
             duration: 0.5,
@@ -336,7 +370,7 @@ export default function Contact({ data = {}, preview }) {
 
   let variantsTwo = {
       pageInitial: {
-          opacity: 1,
+          opacity: 0,
           y: 0,         
       },
       pageAnimate: {
@@ -344,7 +378,7 @@ export default function Contact({ data = {}, preview }) {
           y: 0,
           transition: {
               duration: 0,
-              delay: 0.5
+              delay: 1
           }
       },
       pageExit: {
@@ -352,7 +386,7 @@ export default function Contact({ data = {}, preview }) {
           y: 0,
           transition: {
               duration: 0,
-              delay: 0
+              delay: 1
           }
       }
   }   
@@ -374,10 +408,11 @@ export default function Contact({ data = {}, preview }) {
         >
             <ContainerInner
               variants={pageTransitionVariants[state.aboutContactTransitionType]}
+              ref={containerInnerRef}
             >
               <Header data={data?.menuData} colorSchemeGray={true} aboutContactPage={true} />
               <ContainerInnerInner 
-              // variants={innerInnerContainervariants}
+              variants={innerInnerContainervariants}
               >
                 <CloseButton onClick={() => hasClicked()}>
                     <svg width="19.414" height="19.414" viewBox="0 0 19.414 19.414">
