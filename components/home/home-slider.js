@@ -102,6 +102,21 @@ const GridThree = styled(motion.div)`
   }  
 `
 
+const GridMobile = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  height: fit-content;
+
+  > div:empty {
+    display: none
+  }
+
+  @media(min-width: 990px) {
+    display: none;
+  }
+`
+
+
 let Overlay = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -499,9 +514,7 @@ let resize = () => {
 }  
 
 useEffect(() => {
-  // setTimeout(() => {
-    resize();
-  // }, 300)
+  resize();
 
   window.addEventListener('resize', resize)
 
@@ -546,6 +559,13 @@ const modalVariants = {
           </Arrow>          
         </FiltersMobile>
         <InnerContainer className='inner-container' onWheel={(e) => changeGridIndex(e)}>
+          <GridMobile>
+            {
+              all.map((itemOne, indexOne) => 
+                itemOne.map(itemTwo => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)
+              )
+            }
+          </GridMobile>
           <AnimatePresence mode="wait">
           {
             all.map((itemOne, indexOne) => {
@@ -573,24 +593,25 @@ const modalVariants = {
 
               } else {
                 // Mobile
-                if(indexOne === 0) {
-                  return (
-                  <GridOne key={0} initial="initial" animate="visible" exit="hidden" variants={modalVariants}>
-                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
-                  </GridOne>
-                  )}
-                if(indexOne === 1) {
-                  return (
-                  <GridTwo key={1} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
-                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
-                  </GridTwo>
-                  )} 
-                if(indexOne === 2) {
-                  return (
-                  <GridThree key={2} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
-                    {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
-                  </GridThree>
-                  )}     
+                return              
+                // if(indexOne === 0) {
+                //   return (
+                //   <GridOne key={0} initial="initial" animate="visible" exit="hidden" variants={modalVariants}>
+                //     {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                //   </GridOne>
+                //   )}
+                // if(indexOne === 1) {
+                //   return (
+                //   <GridTwo key={1} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
+                //     {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                //   </GridTwo>
+                //   )} 
+                // if(indexOne === 2) {
+                //   return (
+                //   <GridThree key={2} initial="hidden" animate="visible" exit="hidden" variants={modalVariants}>
+                //     {itemOne.map((itemTwo, indexTwo) => <TileWrapper item={itemTwo} currentFilter={currentFilter} />)}
+                //   </GridThree>
+                //   )}     
                 }
               }
             )

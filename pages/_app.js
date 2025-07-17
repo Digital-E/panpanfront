@@ -205,6 +205,8 @@ function MyApp({ Component, pageProps, router }) {
 
     window.addEventListener("click", displayGrid)
 
+    window.addEventListener("wheel", displayGrid)
+
     window.addEventListener('resize', resize)
 
     return () => {

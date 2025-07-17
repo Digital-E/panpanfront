@@ -158,7 +158,9 @@ let ColumnsWrapper = styled.div`
 `
 
 let ContainerInnerInner = styled(motion.div)`
-  height: 100%;
+  @media(max-width: 989px) {
+    height: 100%;
+  }
 `
 
 let containerInnerHeight = 0;
@@ -192,23 +194,24 @@ export default function About({ data = {}, preview }) {
   }
 
 
-  let resize = () => {
-
-    // containerInnerRef.current.style.height = 'auto'
+  let resizeInit = () => {
 
     let headerHeight = document.querySelector("header").getBoundingClientRect().height;
 
     columnsWrapperRef.current.style.height = `calc(100% - ${headerHeight}px`
-
-
 
     setTimeout(() => {
       if(containerInnerRef.current) {
         containerInnerRef.current.style.height = `${containerInnerRef.current.getBoundingClientRect().height}px`
         dispatch({type: 'current about contact height', value: containerInnerRef.current.getBoundingClientRect().height})
       }
-    }, 100)
+    }, 200)
   }  
+
+  let resize = () => {
+    containerInnerRef.current.style.height = 'auto'
+    resizeInit();
+  }
 
   useEffect(() => {
 
@@ -225,10 +228,10 @@ export default function About({ data = {}, preview }) {
       setTimeout(() => {
         containerInnerRef.current.style.height = `${containerInnerHeight}px`
         dispatch({type: 'current about contact height', value: containerInnerHeight})
-      }, 1000)      
+      }, 500)      
     }
 
-    resize();
+    resizeInit();
 
     window.addEventListener('resize', resize)
 
@@ -250,13 +253,13 @@ export default function About({ data = {}, preview }) {
       opacity: 1,
       display: "block",
       transition: {
-        duration: 0.3
+        duration: 0
       },
     },
     pageExit: {
       opacity: 0,
       transition: {
-        duration: 1
+        duration: 0
       },
       // transitionEnd: {
       //   display: "none",
@@ -275,7 +278,7 @@ export default function About({ data = {}, preview }) {
         opacity: 1,
         transition: {
             duration: 0.5,
-            delay: 1.5
+            delay: 1
         }
       },
       pageExit: {
@@ -285,7 +288,32 @@ export default function About({ data = {}, preview }) {
             delay: 0
         },
       }
-  }     
+  }
+  
+  let innerInnerContainervariantsDefault = {
+      pageInitial: {
+        opacity: 0,
+        transition: {
+            duration: 0
+        },        
+      },
+      pageAnimate: {
+        opacity: 1,
+        transition: {
+            duration: 0.5,
+            delay: 0
+        }
+      },
+      pageExit: {
+        opacity: 0,
+        transition: {
+            duration: 0.5,
+            delay: 0
+        },
+      }
+  }  
+  
+  let innerInnerContainerVariantsArray = [innerInnerContainervariantsDefault, innerInnerContainervariants]  
 
   let variants = {
       pageInitial: {
@@ -322,7 +350,7 @@ export default function About({ data = {}, preview }) {
           y: 0,
           transition: {
               duration: 0,
-              delay: 1
+              delay: 0.5
           }
       },
       pageExit: {
@@ -330,7 +358,7 @@ export default function About({ data = {}, preview }) {
           y: 0,
           transition: {
               duration: 0,
-              delay: 1
+              delay: 0.5
           }
       }
   }   
@@ -356,7 +384,7 @@ export default function About({ data = {}, preview }) {
             >
               <Header data={data?.menuData} colorSchemeGray={true} aboutContactPage={true} />
               <ContainerInnerInner 
-              variants={innerInnerContainervariants}
+              variants={innerInnerContainerVariantsArray[state.aboutContactTransitionType]}
               >
                 <CloseButton onClick={() => hasClicked()}>
                     <svg width="19.414" height="19.414" viewBox="0 0 19.414 19.414">

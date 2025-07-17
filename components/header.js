@@ -102,6 +102,7 @@ export default function Header({ data , colorSchemeGray, positionFixed, aboutCon
   let [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   let listRef = useRef()
+  let homeButtonRef = useRef();
 
   //Context
   const context = useContext(store);
@@ -111,6 +112,22 @@ export default function Header({ data , colorSchemeGray, positionFixed, aboutCon
 
   useEffect(() => {
     if(aboutContactPage) {
+
+      homeButtonRef.current.children[0].addEventListener('click', (e) => {
+        e.preventDefault()
+        dispatch({type: 'about contact transition type', value: 0})
+        setTimeout(() => {
+            router.push('/')
+        }, 0)         
+      })
+
+      listRef.current.children[0].children[0].addEventListener('click', (e) => {
+        e.preventDefault()
+        dispatch({type: 'about contact transition type', value: 0})
+        setTimeout(() => {
+            router.push('/')
+        }, 0)        
+      })
 
       listRef.current.children[1].children[0].addEventListener('click', (e) => {
         preventDefaultClick(e, 'about')
@@ -138,6 +155,7 @@ export default function Header({ data , colorSchemeGray, positionFixed, aboutCon
       <div
         onClick={() => {setMenuOpen(false);}}
         className='home-button'
+        ref={homeButtonRef}
         >
         <Link href={`/`}>
           <Logo>
