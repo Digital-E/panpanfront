@@ -231,7 +231,6 @@ function MyApp({ Component, pageProps, router }) {
     loadedVideosCount += 1;
 
     if(window.innerWidth < 990 && loadedVideosCount === 1) {
-
     }
     
 
