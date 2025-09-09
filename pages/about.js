@@ -19,6 +19,8 @@ import Body from "../components/body"
 
 import Header from "../components/header"
 
+import Footer from "../components/footer"
+
 const Container = styled(motion.div)`
     position: absolute;
     top: 0;
@@ -103,7 +105,7 @@ const CloseButton = styled.div`
 
 
     @media(max-width: 989px) {
-        left: 50%;
+        left: calc(50% - 10px);
         right: auto;
         transform: translateY(-50%);
         top: auto;
@@ -162,6 +164,7 @@ let ContainerInnerInner = styled(motion.div)`
     height: 100%;
   }
 `
+
 
 let containerInnerHeight = 0;
 
@@ -408,6 +411,7 @@ export default function About({ data = {}, preview }) {
                     <div>
                       <div><Body content={data?.aboutData?.textcolumntwo} /></div>
                     </div>
+                    <Footer />                   
                   </Columns>
                 </ColumnsWrapper>  
               </ContainerInnerInner>  

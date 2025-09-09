@@ -144,6 +144,12 @@ let IntroVideo = styled.div`
 
 let loadedVideosCount = 0;
 
+let stopLogoAnimation = false;
+
+let loopAmount = true;
+
+let frameCount = 0;
+
 function MyApp({ Component, pageProps, router }) {
 
   let [activeTags, setActiveTags] = useState([]);
@@ -151,6 +157,9 @@ function MyApp({ Component, pageProps, router }) {
   let [lottieWrapperHeight, setLottieWrapperHeight] = useState(0)
   let [introVideosHeight, setIntroVideosHeight] = useState(0);
   let [introVideosWidth, setIntroVideosWidth] = useState(0);
+  // let [loopAmount, setLoopAmount] = useState(true);
+  // let [stopLogoAnimation, setStopLogoAnimation] = useState(false);
+
 
   let showHeaderFooter = () => {
     document.querySelector("header").style.transition = "opacity 1s"
@@ -160,6 +169,7 @@ function MyApp({ Component, pageProps, router }) {
   }
 
   let displayGrid = () => {
+    stopLogoAnimation = true;
     document.querySelector(".lottie-wrapper").classList.add("reduce-size")
     setTimeout(() => {
       document.querySelector(".lottie-wrapper").classList.add("no-transition-duration")
@@ -201,7 +211,7 @@ function MyApp({ Component, pageProps, router }) {
     setTimeout(() => {
       setDisplayIntroVideo("animate")
       showHeaderFooter();
-    }, 1500)
+    }, 3000)
 
     window.addEventListener("click", displayGrid)
 
@@ -231,6 +241,16 @@ function MyApp({ Component, pageProps, router }) {
       document.querySelector("footer").style.opacity = 0
       document.querySelector(".home-button").style.opacity = 0  
     }  
+  }
+
+  let checkIfStopLogoAnimation = () => {
+
+    if((frameCount % 1 === 0) && stopLogoAnimation) {
+      // setLoopAmount(false);
+      loopAmount = false;
+    }
+
+    frameCount += 1;
   }
 
 
@@ -374,7 +394,7 @@ function MyApp({ Component, pageProps, router }) {
         </IntroVideo>   
       </IntroVideoContainer>
       <LottieWrapper className='lottie-wrapper'>
-        <Lottie animationData={animation} loop={false} onComplete={() => showHeaderFooter()}/>
+        <Lottie animationData={animation} loop={loopAmount} onComplete={() => showHeaderFooter()} onEnterFrame={() => checkIfStopLogoAnimation()}/>
       </LottieWrapper>
       <AnimatePresence 
         mode='wait' 

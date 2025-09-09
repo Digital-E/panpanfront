@@ -19,6 +19,8 @@ import Body from "../components/body"
 
 import Header from "../components/header"
 
+import Footer from "../components/footer"
+
 const Container = styled(motion.div)`
     position: absolute;
     top: 0;
@@ -119,7 +121,7 @@ const CloseButton = styled.div`
 
 
     @media(max-width: 989px) {
-        left: 50%;
+        left: calc(50% - 10px);
         right: auto;
         transform: translateY(-50%);
         top: auto;
@@ -471,6 +473,7 @@ export default function Contact({ data = {}, preview }) {
                           </TextItemColumn>)
                         }
                       </TextItems>
+                      <Footer />  
                   </Columns>
                 </ColumnsWrapper>
               </ContainerInnerInner>

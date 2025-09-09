@@ -1,56 +1,54 @@
-import { useRouter } from "next/router"
-import Link from './link'
 import styled from "styled-components"
-import Body from "./body"
 
-import EmailSubscribe from "./email-subscribe"
 
-let Container = styled.footer`
-  position: relative;
-  display: flex;
-  padding: 20px;
+let Container = styled.div`
+  width: 100%;
+  display: none;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  padding: 0px 25px;
+  box-sizing: border-box;
+  z-index: 1;
+  pointer-events: none;
+  margin-bottom: 70px;
+
+  a {
+    pointer-events: all;
+    text-decoration: underline !important;
+  }
+
+
+  * {
+    font-family: Ciron;
+    font-size: 0.875rem !important;
+    line-height: 1 !important;
+    text-transform: uppercase;
+    color: white;
+  }
 
   @media(max-width: 989px) {
+    display: flex;
     flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 0px 15px;
+
+    > div:first-child {
+      margin-bottom: 10px;
+    }
   }
 `
-
-let Col = styled.div`
-  @media(max-width: 989px) {
-    margin-bottom: 10px;
-  }
-`
-
-let Newsletter = styled.div`
-  display: flex;
-  width: 80%;
-
-  @media(max-width: 989px) {
-      width: 100%;
-      flex-direction: column;
-  }
-`
-let LinkWrapper = styled.div`
-  margin-left: auto;
-`
-
 
 
 
 export default function Header({ data }) {
-  let router = useRouter();
-  
-  if(data === undefined || data === null) return null;
+
 
   return (
     <Container>
-      <Newsletter>
-        <Col><Body content={data.textFieldOne} /></Col>
-        <EmailSubscribe data={data} />
-      </Newsletter>
-      <LinkWrapper>
-        <Link href={`/${router.query.lang}/legal`}><p>{data.legalLabel}</p></Link>
-      </LinkWrapper>
+      <div>Creative Production Company</div>
+      <div><a href="https://www.instagram.com/" target="_blank">Instagram</a></div>      
     </Container>
   )
 }

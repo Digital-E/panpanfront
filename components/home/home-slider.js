@@ -33,9 +33,9 @@ const Container = styled.div`
       position: absolute;
       left: 0px;
       top: 0px;
-      height: 30px;
+      height: 70px;
       width: 100%;
-      background: linear-gradient(0deg, transparent 0%, var(--white) 80%);
+      background: linear-gradient(0deg, transparent 0%, var(--white) 100%);
       z-index: 2;
     }      
   }
@@ -141,11 +141,14 @@ let Tile = styled.div`
     box-sizing: border-box;
     overflow: hidden;
 
-    transition: filter 1s;
+    // transition: filter 1s;
+    transition: opacity 1s;
 
     &.hide-tile {
-      filter: blur(10px);
-      transition: filter 1s;
+      // filter: blur(10px);
+      // transition: filter 1s;
+      opacity: 0.1;
+      transition: opacity 1s;
       pointer-events: none;
     }
 
@@ -253,7 +256,8 @@ let FiltersMobile = styled.div`
   border: 1px solid black;
   padding: 2px;
   z-index: 2;
-  backdrop-filter: blur(10px);
+  // backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.6);
 
   * {
     font-family: "Ciron";
@@ -408,9 +412,9 @@ let gridArray = [];
 
     preFiltersArray = [
       {label: "all", active: true},
-      {label: "documentaries", active: false},
-      {label: "savoir-faire", active: false},
-      {label: "digital-content", active: false}
+      {label: "craftsmanship", active: false},
+      {label: "fashion & beauty", active: false},
+      {label: "documentary", active: false}
     ];
   
     setFilters(preFiltersArray)

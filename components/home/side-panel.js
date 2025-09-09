@@ -142,6 +142,10 @@ let Logo = styled.div`
     left: 0;
     padding: 15px 25px;
 
+    > div:nth-child(1) {
+        cursor: pointer;
+    }
+
     display: flex;
     align-self: flex-start;
     align-items: baseline;
