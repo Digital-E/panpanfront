@@ -258,6 +258,7 @@ let FiltersMobile = styled.div`
   z-index: 2;
   // backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
 
   * {
     font-family: "Ciron";
@@ -269,11 +270,12 @@ let FiltersMobile = styled.div`
     position: relative;
     transform: rotate(180deg);
     top: -1px;
+    left: 2px;
   }
 
   > div:nth-child(2) {
     position: relative;
-    top: 2px;
+    top: 1px;
     width: 150px;
     text-align: center;
   }  
@@ -281,6 +283,7 @@ let FiltersMobile = styled.div`
   > div:nth-child(3) {
     position: relative;
     top: 1.5px;
+    right: 2px;
   }  
 
   @media(max-width: 989px) {

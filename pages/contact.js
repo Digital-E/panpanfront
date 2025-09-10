@@ -74,7 +74,7 @@ const Columns = styled.div`
     }
 
     > div:nth-child(2) {
-        margin-top: 140px;
+        margin-top: 105px;
         margin-bottom: 35px;
     }
 
@@ -150,6 +150,7 @@ let TextItems= styled.div`
   display: flex;
   justify-content: center;
   margin: 35px 25px;
+  flex-wrap: wrap;
 
   @media(max-width: 989px) {
     flex-direction: column;
@@ -158,7 +159,7 @@ let TextItems= styled.div`
 `
 
 let TextItemColumn = styled.div`
-  margin: 0 35px 0px 35px;
+  margin: 35px 35px 0px 35px;
 
   @media(max-width: 989px) {
     margin: 0 0 35px 0;
