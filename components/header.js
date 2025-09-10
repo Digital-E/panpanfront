@@ -86,6 +86,7 @@ let Menu = styled.div`
 const Logo = styled.div`
   svg {
     height: 50px;
+    // fill: blue;
   }
 
   @media(max-width: 989px) {

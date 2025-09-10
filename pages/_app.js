@@ -97,7 +97,10 @@ let LottieWrapper = styled.div`
     left: 0px;
     position: fixed;
     height: auto !important;
+    // height: calc(100vw * 0.2) !important;
+    // width: auto !important;
     transition: width 1s;
+    // transition: height 1s;
   }
 
   &&.no-transition-duration svg {
@@ -106,7 +109,10 @@ let LottieWrapper = styled.div`
 
   @media(min-width: 990px) {
     &&.reduce-size > div > svg {
-      width: 23% !important;
+      // width: 23% !important;
+      width: 326.5px !important;
+      left: 14.5px;
+      margin-top: 2.5px;
     }
   }
 
