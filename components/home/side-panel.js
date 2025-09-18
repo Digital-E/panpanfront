@@ -247,9 +247,9 @@ export default ({ preview, data }) => {
             player[0].muted = false
     
             player[0].on('canplay', (event) => {
-                setTimeout(() => {
-                    resize();
-                }, 50)
+                // setTimeout(() => {
+                //     resize();
+                // }, 50)
                 setTimeout(() => {
                     containerInnerRef.current.children[0].children[0].style.opacity = 1;
                 }, 100)
@@ -284,8 +284,6 @@ export default ({ preview, data }) => {
               }
           
               const json = await response.json();
-
-              let aspectRatio = json.width / json.height;
 
               aspectRatioInitial = json.width / json.height;
 
@@ -337,7 +335,7 @@ export default ({ preview, data }) => {
         } else {
             if(window.innerWidth < 990) {
                 document.querySelector('.container-inner').style.width = "100%";
-                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight - 60)}px`
+                document.querySelector(".plyr").style.maxHeight = `${window.innerHeight - (headerHeight + footerHeight + 105)}px`
                 document.querySelector(".plyr").style.maxWidth = `${(window.innerHeight - (headerHeight + footerHeight)) * aspectRatio - 35}px`
             } else {
                 document.querySelector('.container-inner').style.width = "75%";
