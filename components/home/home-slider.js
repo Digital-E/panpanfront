@@ -341,15 +341,24 @@ let TileWrapper = ({item, currentFilter}) => {
 
   let hasCurrentFilter = false;
 
+  let itemTagsLength = item?.tags.length;
+
+  let hasCurrentFilterCount = 0;
+
 
   if(currentFilter === "all") {
     hasCurrentFilter = true;
   } else {
     item?.tags.forEach(item => {
-      if(item !== currentFilter) {
-        hasCurrentFilter = true
+
+      if(item === currentFilter) {
+          hasCurrentFilterCount += 1
       }
     })
+  }
+
+  if(hasCurrentFilterCount > 0) {
+    hasCurrentFilter = true
   }
 
 

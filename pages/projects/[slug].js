@@ -62,7 +62,7 @@ export default function Component({ data = {}, preview }) {
                 />
               </Head>
               <Container>
-                <SidePanel data={data.data} />
+                <SidePanel data={data.data} allProjectsData={data.allProjectsData} />
               </Container>
           </>
         )}

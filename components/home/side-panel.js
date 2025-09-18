@@ -14,6 +14,8 @@ import Link  from '../link'
 
 import Video from '../video-no-embed';
 
+import splitSlug from '../../lib/splitSlug';
+
 
 const Container = styled(motion.div)`
     position: fixed;
@@ -87,6 +89,7 @@ let ContainerInner = styled.div`
         opacity: 0;
         transition: opacity 0.6s;
         max-height: 100%;
+        display: none;
         // width: 100%;
     }
 
@@ -205,7 +208,7 @@ let overlayVariants = {
 
 let aspectRatioInitial = 0;
 
-export default ({ preview, data }) => {
+export default ({ preview, data, allProjectsData }) => {
     let containerInnerRef = useRef();
     //Context
     const context = useContext(store);
@@ -223,10 +226,27 @@ export default ({ preview, data }) => {
 
     let player = null;
 
+    let [prevProjectUrl, setPrevProjectUrl] = useState(null);
+
+    let [nextProjectUrl, setNextProjectUrl] = useState(null);
+
 
     useEffect(() => {
 
-        // setReveal(true)
+        // Get next and prev project
+
+        allProjectsData.forEach((item, index) => {
+            if(data._id === item._id) {
+                if(index === 0) {
+                    setPrevProjectUrl(allProjectsData[allProjectsData.length - 1].slug)
+                    setNextProjectUrl(allProjectsData[index + 1].slug)
+                } else if(index === allProjectsData.length - 1) {
+                    setPrevProjectUrl(allProjectsData[index - 1].slug)
+                    setNextProjectUrl(allProjectsData[0].slug)
+                }
+            }
+        })
+
 
         document.querySelector(".loader").classList.remove("show-loader")
 
@@ -251,7 +271,8 @@ export default ({ preview, data }) => {
                 //     resize();
                 // }, 50)
                 setTimeout(() => {
-                    containerInnerRef.current.children[0].children[0].style.opacity = 1;
+                    // containerInnerRef.current.children[0].children[0].style.display = "block";
+                    // containerInnerRef.current.children[0].children[0].style.opacity = 1;
                 }, 100)
             });
 
@@ -288,7 +309,12 @@ export default ({ preview, data }) => {
               aspectRatioInitial = json.width / json.height;
 
               resize();
-              
+
+            containerInnerRef.current.children[0].children[0].style.display = "block";
+
+            setTimeout(() => {
+             containerInnerRef.current.children[0].children[0].style.opacity = 1;  
+            }, 100)            
 
             } catch (error) {
               console.error(error.message);
@@ -411,6 +437,8 @@ export default ({ preview, data }) => {
 
         dispatch({type: 'project transition type', value: 1})
 
+        url = splitSlug(url, 1)
+
         if(url === router.asPath) return 
 
         containerInnerRef.current.children[0].children[0].style.opacity = 0;
@@ -453,8 +481,8 @@ export default ({ preview, data }) => {
                     <Video data={data} id={data._id}/>
                 </ContainerInner>                
                 <BottomBar className='bottom-bar'>
-                    <div onClick={(e) => clickNextProject(e, "/projects/dior-parfums-tatiana")}><Link href={"/projects/dior-parfums-tatiana"}>Previous <br/> Project</Link></div>
-                    <div onClick={(e) => clickNextProject(e, "/projects/dior-men-trailer-max-richter")}><Link href={"/projects/dior-men-trailer-max-richter"}>Next <br/> Project</Link></div>
+                    <div onClick={(e) => clickNextProject(e, prevProjectUrl)}><Link href={prevProjectUrl}>Previous <br/> Project</Link></div>
+                    <div onClick={(e) => clickNextProject(e, nextProjectUrl)}><Link href={nextProjectUrl}>Next <br/> Project</Link></div>
                 </BottomBar>
             </Container>
             <Overlay variants={pageTransitionVariants[state.projectTransitionType]} onClick={() => hasClicked()}/>
