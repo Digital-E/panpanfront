@@ -382,42 +382,28 @@ function MyApp({ Component, pageProps, router }) {
       </CookieConsent> */}              
       {/* <Component {...pageProps} /> */}
       <IntroVideoContainer variants={introVideoVariants} initial={"initial"} animate={displayIntroVideo} top={lottieWrapperHeight} height={introVideosHeight} width={introVideosWidth}>
-        <IntroVideo>
-        <video
-            // ref={videoRef}
-            preload="auto"
-            id='video-intro'
-            playsInline
-            autoPlay 
-            muted
-            loop
-            // onProgress={(e) => console.log(e)}
-            // onCanPlayThrough={() => console.log('loaded')}
-            // src={videoId}
-            src={`https://player.vimeo.com/progressive_redirect/playback/1094423995/rendition/540p/file.mp4?loc=external&log_user=0&signature=95c743461e52cfe450e28c9b355114ae53f6176e4beed39f368696dcee4282b0`}
-            onLoadedData={hasLoadedFunc}
-            onPlay={hasLoadedFunc}
-            // data-poster="/path/to/poster.jpg"
-        />
-        </IntroVideo>
-        <IntroVideo>
-        <video
-            // ref={videoRef}
-            preload="auto"
-            id='video-intro'
-            playsInline
-            autoPlay 
-            muted
-            loop
-            // onProgress={(e) => console.log(e)}
-            // onCanPlayThrough={() => console.log('loaded')}
-            // src={videoId}
-            src={`https://player.vimeo.com/progressive_redirect/playback/1094404837/rendition/540p/file.mp4?loc=external&log_user=0&signature=5a51b40b84fd1e87d372b31337e5713884ba6217b2869d3ed2efbac4184da6aa`}
-            onLoadedData={hasLoadedFunc}
-            onPlay={hasLoadedFunc}
-            // data-poster="/path/to/poster.jpg"
-        />
-        </IntroVideo>   
+          {
+            pageProps.data.homeData.videos.map(item => (
+              <IntroVideo>
+                <video
+                    // ref={videoRef}
+                    preload="auto"
+                    id='video-intro'
+                    playsInline
+                    autoPlay 
+                    muted
+                    loop
+                    // onProgress={(e) => console.log(e)}
+                    // onCanPlayThrough={() => console.log('loaded')}
+                    // src={videoId}
+                    src={item}
+                    onLoadedData={hasLoadedFunc}
+                    onPlay={hasLoadedFunc}
+                    // data-poster="/path/to/poster.jpg"
+                />   
+              </IntroVideo>            
+            ))
+          }
       </IntroVideoContainer>
       <LottieWrapper className='lottie-wrapper'>
         <Lottie animationData={animation} loop={loopAmount} onComplete={() => showHeaderFooter()} onEnterFrame={() => checkIfStopLogoAnimation()}/>
