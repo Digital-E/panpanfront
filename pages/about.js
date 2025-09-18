@@ -84,6 +84,7 @@ const Columns = styled.div`
 
 
       > div:nth-child(2) {
+          margin-top: 45px;
           margin-bottom: 70px;
       }
 
@@ -217,7 +218,8 @@ export default function About({ data = {}, preview }) {
   }
 
   useEffect(() => {
-
+    // Have checked bug not here
+    
     // setTimeout(() => {
     //   dispatch({type: 'about contact transition type', value: 0})
     // }, 1000)
@@ -248,7 +250,7 @@ export default function About({ data = {}, preview }) {
 
     setTimeout(() => {
       router.push("/")
-    }, 100)
+    }, 0)
   } 
   
   let overlayVariants = {
@@ -330,7 +332,8 @@ export default function About({ data = {}, preview }) {
         opacity: 1,
         y: 0,
         transition: {
-            duration: 0.5
+            duration: 0.5,
+            delay: 0
         }
       },
       pageExit: {
@@ -338,6 +341,7 @@ export default function About({ data = {}, preview }) {
         y: "-100%",
         transition: {
             duration: 0.5,
+            delay: 0
         },
       }
   }   
@@ -345,24 +349,27 @@ export default function About({ data = {}, preview }) {
 
   let variantsTwo = {
       pageInitial: {
-          opacity: 0,
-          y: 0 
+        opacity: 0,
+        y: 0,
+        transition: {
+            duration: 0
+        },            
       },
       pageAnimate: {
-          opacity: 1,
-          y: 0,
-          transition: {
-              duration: 0,
-              delay: 0.5
-          }
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0,
+          delay: 0.49
+        }
       },
       pageExit: {
-          opacity: 0,
-          y: 0,
-          transition: {
-              duration: 0,
-              delay: 0.5
-          }
+        opacity: 0,
+        y: 0,
+        transition: {
+          duration: 0,
+          delay: 0.5
+        }
       }
   }   
   

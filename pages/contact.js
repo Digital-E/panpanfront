@@ -82,6 +82,10 @@ const Columns = styled.div`
       font-size: 1.5rem;
     }
 
+    > div:nth-child(1) {
+      line-height: 2rem;
+    }    
+
     > div:nth-child(2) {
       line-height: 2rem;
     }
@@ -276,7 +280,8 @@ export default function Contact({ data = {}, preview }) {
   }
 
   useEffect(() => {
-
+    // Have checked bug not here
+    
     // setTimeout(() => {
     //   dispatch({type: 'about contact transition type', value: 0})
     // }, 1000)
@@ -404,26 +409,29 @@ export default function Contact({ data = {}, preview }) {
 
   let variantsTwo = {
       pageInitial: {
-          opacity: 0,
-          y: 0,         
+        opacity: 0,
+        y: 0,
+        transition: {
+            duration: 0
+        },            
       },
       pageAnimate: {
-          opacity: 1,
-          y: 0,
-          transition: {
-              duration: 0,
-              delay: 0.5
-          }
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0,
+          delay: 0.49
+        }
       },
       pageExit: {
-          opacity: 0,
-          y: 0,
-          transition: {
-              duration: 0,
-              delay: 0.5
-          }
+        opacity: 0,
+        y: 0,
+        transition: {
+          duration: 0,
+          delay: 0.5
+        }
       }
-  }   
+  }  
   
   let pageTransitionVariants = [variants, variantsTwo]   
 

@@ -275,7 +275,7 @@ let FiltersMobile = styled.div`
 
   > div:nth-child(2) {
     position: relative;
-    top: 1px;
+    top: 1.5px;
     width: 150px;
     text-align: center;
   }  

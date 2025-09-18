@@ -438,7 +438,7 @@ export default ({ preview, data }) => {
                         </svg> 
                     </div>
                     <Title>
-                        /{data.title}
+                        / {data.title}
                     </Title>                        
                 </Logo>
                 <CloseButton onClick={() => hasClicked()}>
