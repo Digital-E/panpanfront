@@ -346,9 +346,9 @@ function MyApp({ Component, pageProps, router }) {
             </MobileHeaderSpacer> */}
             <HomeSlider allProjects={pageProps.data?.allProjectsData} />
             <Footer>
-              <div>Creative Production Company</div>
+              <div>{pageProps.data?.footerData.text}</div>
               <div>
-                <a href="https://www.instagram.com/" target="_blank">
+                <a href={pageProps.data?.footerData.link} target="_blank">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                   <g id="Groupe_116" data-name="Groupe 116" transform="translate(-1241 -740)">
                     <path id="Rectangle_13" data-name="Rectangle 13" d="M4,1.2A2.8,2.8,0,0,0,1.2,4v8A2.8,2.8,0,0,0,4,14.8h8A2.8,2.8,0,0,0,14.8,12V4A2.8,2.8,0,0,0,12,1.2H4M4,0h8a4,4,0,0,1,4,4v8a4,4,0,0,1-4,4H4a4,4,0,0,1-4-4V4A4,4,0,0,1,4,0Z" transform="translate(1241 740)"/>
