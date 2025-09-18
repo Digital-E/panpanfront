@@ -383,7 +383,7 @@ function MyApp({ Component, pageProps, router }) {
       {/* <Component {...pageProps} /> */}
       <IntroVideoContainer variants={introVideoVariants} initial={"initial"} animate={displayIntroVideo} top={lottieWrapperHeight} height={introVideosHeight} width={introVideosWidth}>
           {
-            pageProps.data.homeData?.videos?.map(item => (
+            pageProps.data?.homeData?.videos?.map(item => (
               <IntroVideo>
                 <video
                     // ref={videoRef}
