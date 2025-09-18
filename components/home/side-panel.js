@@ -243,6 +243,9 @@ export default ({ preview, data, allProjectsData }) => {
                 } else if(index === allProjectsData.length - 1) {
                     setPrevProjectUrl(allProjectsData[index - 1].slug)
                     setNextProjectUrl(allProjectsData[0].slug)
+                } else {
+                    setPrevProjectUrl(allProjectsData[index - 1].slug)
+                    setNextProjectUrl(allProjectsData[index + 1].slug)
                 }
             }
         })
@@ -271,9 +274,12 @@ export default ({ preview, data, allProjectsData }) => {
                 //     resize();
                 // }, 50)
                 setTimeout(() => {
-                    // containerInnerRef.current.children[0].children[0].style.display = "block";
-                    // containerInnerRef.current.children[0].children[0].style.opacity = 1;
-                }, 100)
+                    containerInnerRef.current.children[0].children[0].style.display = "block";
+
+                    setTimeout(() => {
+                        containerInnerRef.current.children[0].children[0].style.opacity = 1;
+                    }, 100)
+                }, 500)
             });
 
             if(document.querySelector(".plyr")) {
@@ -310,11 +316,11 @@ export default ({ preview, data, allProjectsData }) => {
 
               resize();
 
-            containerInnerRef.current.children[0].children[0].style.display = "block";
+            // containerInnerRef.current.children[0].children[0].style.display = "block";
 
-            setTimeout(() => {
-             containerInnerRef.current.children[0].children[0].style.opacity = 1;  
-            }, 100)            
+            // setTimeout(() => {
+            //  containerInnerRef.current.children[0].children[0].style.opacity = 1;  
+            // }, 100)            
 
             } catch (error) {
               console.error(error.message);

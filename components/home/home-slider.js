@@ -341,7 +341,7 @@ let TileWrapper = ({item, currentFilter}) => {
 
   let hasCurrentFilter = false;
 
-  let itemTagsLength = item?.tags.length;
+  let itemTagsLength = item?.tags?.length;
 
   let hasCurrentFilterCount = 0;
 
@@ -349,7 +349,7 @@ let TileWrapper = ({item, currentFilter}) => {
   if(currentFilter === "all") {
     hasCurrentFilter = true;
   } else {
-    item?.tags.forEach(item => {
+    item?.tags?.forEach(item => {
 
       if(item === currentFilter) {
           hasCurrentFilterCount += 1
@@ -609,7 +609,7 @@ const modalVariants = {
 
               } else {
                 // Mobile
-                return              
+                return null             
                 // if(indexOne === 0) {
                 //   return (
                 //   <GridOne key={0} initial="initial" animate="visible" exit="hidden" variants={modalVariants}>
