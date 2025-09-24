@@ -35,13 +35,13 @@ const Container = styled(motion.div)`
     .loader-wrapper {
         position: fixed;
         opacity: 0;
-        transition: opacity 0s 1s;
+        transition: opacity 1s 0s;
         z-index: -1;
     }
 
     .loader-wrapper.show-loader {
         opacity: 1;
-        transition: opacity 0s 1s;
+        transition: opacity 1s 1s;
     }
 
     @media(max-width: 989px) {
@@ -249,7 +249,9 @@ export default ({ preview, data, allProjectsData }) => {
 
     useEffect(() => {
 
-        loaderWrapper.current.classList.add("show-loader")
+        setTimeout(() => {
+            loaderWrapper.current.classList.add("show-loader")
+        }, 0)
 
         // Get next and prev project
 
@@ -292,11 +294,11 @@ export default ({ preview, data, allProjectsData }) => {
                 // }, 50)
 
 
+                loaderWrapper.current.classList.remove("show-loader")
                 setTimeout(() => {
                     containerInnerRef.current.children[0].children[0].style.display = "block";
                     setTimeout(() => {
                         containerInnerRef.current.children[0].children[0].style.opacity = 1;
-                        loaderWrapper.current.classList.remove("show-loader")
                     }, 100)
                 }, 500)
             });
@@ -358,8 +360,6 @@ export default ({ preview, data, allProjectsData }) => {
               window.removeEventListener('resize', resize)
               player[0].destroy()
               player[0] = null
-
-            //   loaderWrapper.current?.classList.remove("show-loader")
           }
 
     }, [])
