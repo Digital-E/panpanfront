@@ -9,10 +9,10 @@ left: 0;
 display: flex;
 align-items: center;
 justify-content: center;
-opacity: 0;
+// opacity: 0;
 pointer-events: none;
 transition: opacity 0.3s;
-z-index: 999;
+z-index: -1;
 
 &.show-loader {
     opacity: 1;
@@ -34,7 +34,7 @@ z-index: 999;
     border: 4px solid black;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: black transparent transparent transparent;
+    border-color: white transparent transparent transparent;
   }
   .lds-ring div:nth-child(1) {
     animation-delay: -0.45s;

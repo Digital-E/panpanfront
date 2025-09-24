@@ -16,6 +16,8 @@ import Video from '../video-no-embed';
 
 import splitSlug from '../../lib/splitSlug';
 
+import Loader from '../loader'
+
 
 const Container = styled(motion.div)`
     position: fixed;
@@ -29,6 +31,18 @@ const Container = styled(motion.div)`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+
+    .loader-wrapper {
+        position: fixed;
+        opacity: 0;
+        transition: opacity 0s 1s;
+        z-index: -1;
+    }
+
+    .loader-wrapper.show-loader {
+        opacity: 1;
+        transition: opacity 0s 1s;
+    }
 
     @media(max-width: 989px) {
         height: 100%;
@@ -230,8 +244,12 @@ export default ({ preview, data, allProjectsData }) => {
 
     let [nextProjectUrl, setNextProjectUrl] = useState(null);
 
+    let loaderWrapper = useRef();
+
 
     useEffect(() => {
+
+        loaderWrapper.current.classList.add("show-loader")
 
         // Get next and prev project
 
@@ -251,8 +269,6 @@ export default ({ preview, data, allProjectsData }) => {
         })
 
 
-        document.querySelector(".loader").classList.remove("show-loader")
-
 
         //Plyr Code
 
@@ -268,16 +284,19 @@ export default ({ preview, data, allProjectsData }) => {
             player[0].play()
             player[0].pause()
             player[0].muted = false
-    
+
+
             player[0].on('canplay', (event) => {
                 // setTimeout(() => {
                 //     resize();
                 // }, 50)
+
+
                 setTimeout(() => {
                     containerInnerRef.current.children[0].children[0].style.display = "block";
-
                     setTimeout(() => {
                         containerInnerRef.current.children[0].children[0].style.opacity = 1;
+                        loaderWrapper.current.classList.remove("show-loader")
                     }, 100)
                 }, 500)
             });
@@ -339,6 +358,8 @@ export default ({ preview, data, allProjectsData }) => {
               window.removeEventListener('resize', resize)
               player[0].destroy()
               player[0] = null
+
+            //   loaderWrapper.current?.classList.remove("show-loader")
           }
 
     }, [])
@@ -485,6 +506,9 @@ export default ({ preview, data, allProjectsData }) => {
                 </CloseButton>
                 <ContainerInner ref={containerInnerRef} className="container-inner">
                     <Video data={data} id={data._id}/>
+                    <div ref={loaderWrapper} className="loader-wrapper">
+                        <Loader />
+                    </div>
                 </ContainerInner>                
                 <BottomBar className='bottom-bar'>
                     <div onClick={(e) => clickNextProject(e, prevProjectUrl)}><Link href={prevProjectUrl}>Previous <br/> Project</Link></div>
