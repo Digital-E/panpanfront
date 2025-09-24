@@ -34,6 +34,11 @@ const Container = styled(motion.div)`
 
     .loader-wrapper {
         position: fixed;
+        display: flex;
+        height: 100%;
+        left: 0;
+        top: 0;
+        align-items: center;
         opacity: 0;
         transition: opacity 1s 0s;
         z-index: -1;
@@ -41,7 +46,7 @@ const Container = styled(motion.div)`
 
     .loader-wrapper.show-loader {
         opacity: 1;
-        transition: opacity 1s 1s;
+        transition: opacity 1s 0s;
     }
 
     @media(max-width: 989px) {
@@ -292,7 +297,6 @@ export default ({ preview, data, allProjectsData }) => {
                 // setTimeout(() => {
                 //     resize();
                 // }, 50)
-
 
                 loaderWrapper.current.classList.remove("show-loader")
                 setTimeout(() => {
