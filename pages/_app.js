@@ -160,9 +160,9 @@ let IntroVideo = styled.div`
 
 let loadedVideosCount = 0;
 
-let stopLogoAnimation = false;
+// let stopLogoAnimation = false;
 
-let loopAmount = true;
+// let loopAmount = true;
 
 let frameCount = 0;
 
@@ -173,8 +173,9 @@ function MyApp({ Component, pageProps, router }) {
   let [lottieWrapperHeight, setLottieWrapperHeight] = useState(0)
   let [introVideosHeight, setIntroVideosHeight] = useState(0);
   let [introVideosWidth, setIntroVideosWidth] = useState(0);
-  // let [loopAmount, setLoopAmount] = useState(true);
-  // let [stopLogoAnimation, setStopLogoAnimation] = useState(false);
+  let [loopAmount, setLoopAmount] = useState(true);
+  let [stopLogoAnimation, setStopLogoAnimation] = useState(false);
+  let [canStopAnimation, setCanStopAnimation] = useState(false)
 
 
   let showHeaderFooter = () => {
@@ -185,11 +186,12 @@ function MyApp({ Component, pageProps, router }) {
   }
 
   let displayGrid = () => {
-    stopLogoAnimation = true;
+    setStopLogoAnimation(true);
     document.querySelector(".lottie-wrapper").classList.add("reduce-size")
     setTimeout(() => {
       document.querySelector(".lottie-wrapper").classList.add("no-transition-duration")
-    }, 750);
+      setCanStopAnimation(true)
+    }, 1000);
     setDisplayIntroVideo("exit")
 
     setTimeout(() => {
@@ -229,6 +231,8 @@ function MyApp({ Component, pageProps, router }) {
       showHeaderFooter();
     }, 3000)
 
+    window.addEventListener("touchstart", displayGrid)
+
     window.addEventListener("click", displayGrid)
 
     window.addEventListener("wheel", displayGrid)
@@ -260,9 +264,9 @@ function MyApp({ Component, pageProps, router }) {
 
   let checkIfStopLogoAnimation = () => {
 
-    if((frameCount % 1 === 0) && stopLogoAnimation) {
-      // setLoopAmount(false);
-      loopAmount = false;
+    if((frameCount % 99 === 0) && stopLogoAnimation && canStopAnimation) {
+      setLoopAmount(false);
+      //loopAmount = false;
     }
 
     frameCount += 1;
