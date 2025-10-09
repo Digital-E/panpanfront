@@ -421,9 +421,10 @@ let gridArray = [];
 
     preFiltersArray = [
       {label: "all", active: true},
-      {label: "craftsmanship", active: false},
-      {label: "fashion & beauty", active: false},
-      {label: "documentary", active: false}
+      {label: "film", active: false},
+      {label: "photography", active: false},
+      {label: "documentary", active: false},
+      {label: "talent", active: false}
     ];
   
     setFilters(preFiltersArray)
