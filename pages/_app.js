@@ -173,9 +173,10 @@ function MyApp({ Component, pageProps, router }) {
   let [lottieWrapperHeight, setLottieWrapperHeight] = useState(0)
   let [introVideosHeight, setIntroVideosHeight] = useState(0);
   let [introVideosWidth, setIntroVideosWidth] = useState(0);
-  let [loopAmount, setLoopAmount] = useState(true);
+  let [loopAmount, setLoopAmount] = useState(0);
   let [stopLogoAnimation, setStopLogoAnimation] = useState(false);
-  let [canStopAnimation, setCanStopAnimation] = useState(false)
+  let [canStopAnimation, setCanStopAnimation] = useState(false);
+  let [autoplay, setAutoplay] = useState(false)
 
 
   let showHeaderFooter = () => {
@@ -222,6 +223,17 @@ function MyApp({ Component, pageProps, router }) {
     //   document.querySelector("footer").style.opacity = 0
     //   document.querySelector(".home-button").style.opacity = 0
     // }, 0)
+
+    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+
+    if(!isSafari) {
+      setLoopAmount(true)
+      setAutoplay(true)
+      // setCanStopAnimation(true)
+      // setStopLogoAnimation(true)
+    }
+
 
     resize();
 
@@ -410,7 +422,7 @@ function MyApp({ Component, pageProps, router }) {
           }
       </IntroVideoContainer>
       <LottieWrapper className='lottie-wrapper'>
-        <Lottie animationData={animation} loop={loopAmount} onComplete={() => showHeaderFooter()} onEnterFrame={() => checkIfStopLogoAnimation()}/>
+        <Lottie animationData={animation} loop={loopAmount} autoplay={autoplay} onComplete={() => showHeaderFooter()} onEnterFrame={() => checkIfStopLogoAnimation()}/>
       </LottieWrapper>
       <AnimatePresence 
         mode='wait' 
