@@ -152,6 +152,7 @@ let IntroVideoContainer = styled(motion.div)`
 
 let IntroVideo = styled.div`
     margin: 0 10px;
+    background: rgba(0, 0, 0, 0.1);
 
     @media(max-width: 989px) {
       margin: 0 20px
@@ -236,12 +237,18 @@ function MyApp({ Component, pageProps, router }) {
 
 
     resize();
-
+    
 
     setTimeout(() => {
       setDisplayIntroVideo("animate")
       showHeaderFooter();
     }, 3000)
+
+    setTimeout(() => {
+      if (document.querySelector("body").style.opacity !== "1") {
+        document.querySelector("body").style.opacity = 1
+      }
+    }, 8000)
 
     window.addEventListener("touchstart", displayGrid)
 
@@ -415,6 +422,7 @@ function MyApp({ Component, pageProps, router }) {
                     src={item}
                     onLoadedData={hasLoadedFunc}
                     onPlay={hasLoadedFunc}
+                    onError={hasLoadedFunc}
                     // data-poster="/path/to/poster.jpg"
                 />   
               </IntroVideo>            
